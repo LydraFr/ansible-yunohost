@@ -63,3 +63,10 @@ ynh_apps: null
   #       owner: ttrss # Only provide if different from app name
   #       group: ttrss # Only provide if different from www-data
 
+# Autoupdate Yunohost and its apps
+ynh_autoupdate:
+  scheduled: False
+  # special_time: "daily" #Choices are [annually,daily,hourly,monthly,reboot,weekly,yearly]
+  # apps: True
+  # system: True
+  # dest_script: "/usr/local/bin/"

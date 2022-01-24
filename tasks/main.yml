@@ -72,3 +72,7 @@
 - name: Install Yunohost apps
   ansible.builtin.include_tasks: apps.yml
   when: ynh_apps
+
+- name: Configures Yunohost autoupdate
+  ansible.builtin.include_tasks: autoupdate.yml
+  when: ynh_autoupdate.scheduled

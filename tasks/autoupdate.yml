@@ -18,18 +18,19 @@
 #                                                                             #
 #-----------------------------------------------------------------------------#
 
-- name: List currently installed apps
-  ansible.builtin.command: yunohost app map --output-as json
-  register: ynh_installed_apps_raw
-  changed_when: False
+- name: Creates Yunohost autoupdate script
+  ansible.builtin.template:
+    src: "templates/ynh_autoupdate.sh.j2"
+    dest: "{{ ynh_autoupdate.dest_script | default('/usr/local/bin/') }}ynh_autoupdate.sh"
+    owner: root
+    group: root
+    mode: '0740'
 
-- name: Format json of apps
-  ansible.builtin.set_fact: ynh_installed_apps="{{ ynh_installed_apps_raw.stdout | from_json }}"
-
-- name: Install yunohost apps and perform post-install
-  ansible.builtin.include_tasks: app.yml
-  loop: "{{ ynh_apps }}"
-  loop_control:
-    loop_var: ynh_app
-  when: ynh_app.label not in ynh_installed_apps.values()
-
+- name: Creates cron task under /etc/cron.d to auto-update Yunohost
+  ansible.builtin.cron:
+    name: "auto-update Yunohost
+          Logs can be found in /var/log/yunohost/categories/operation"
+    special_time: "{{ ynh_autoupdate.special_time }}"
+    user: root
+    job: "{{ ynh_autoupdate.dest_script | default('/usr/local/bin/') }}ynh_autoupdate.sh"
+    cron_file: ynh_autoupdate_cron

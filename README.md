@@ -111,14 +111,14 @@ ynh_apps:
 - `label` allows you to give a custom name to the application on the user interface.
 - `link` is the name of the Yunohost application to install.
 
-#### About the arguments:
+#### About the arguments
 - `domain` is essential. You have to choose one of the domains of your Yunohost instance.
 - `path` is required. You have to choose a URL to access your application like `domain.tld/my_app`. Just use `/` if the application is to be installed on a subdomain.
 - `is_public` argument is a common one. Set to `yes`, the application will be accessible to everyone, even without authentication to the Yunohost SSO portal. Set to `no`, the application will be accessible only after authentication.
 
 For the other arguments, you have to refer to the `manifest.json` available in the repository of the Yunohost application you install. You can learn more about this part [here](https://yunohost.org/fr/packaging_apps_manifest). 
 
-#### About the post-installation:
+#### About the post-installation
 It is possible to complete the installation of applications by adding jinja template configuration files or scripts written by yourself.
 To enable this feature, define the `post_install` variable which corresponds to the list of post-installation files of your applications.
 Because this task uses the template module, you can use your own variables and call them in your template files. To know more about this module, click [here](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/template_module.html).
@@ -130,6 +130,29 @@ Because this task uses the template module, you can use your own variables and c
   - If you specify `config` as the value, then the template file will have 660 rights. It will be transferred to the Yunohost server (usually in `/var/www/AppName/`) and after you could import it with a shell script on the side for example.
 
 For `owner` and `group`, by default the file will take as owner the name of the application and as owner www-data(NGINX group). You can change them by specifying different values.
+
+### About the updates
+
+```yml
+# Autoupdate Yunohost and its apps
+ynh_autoupdate:
+  scheduled: True
+  special_time: "daily" #Choices are [annually,daily,hourly,monthly,reboot,weekly,yearly]
+  apps: True
+  system: True
+  dest_script: "/usr/bin/"
+```
+
+A cron job can been set up to automate the check for system and application updates on a schedule of your choice.
+  - `ynh_autoupdate.scheduled` : enables the cron job by setting the value to `True`.
+  - `ynh_autoupdate.special_time`: it is mandatory. It allows you to specify when you want this task to be executed. Possible values: (`annually`,`daily`,`hourly`,`monthly`,`reboot`,`weekly`,`yearly`). To learn more about special times, click [here](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/cron_module.html).
+  - `ynh_autoupdate.apps`: is mandatory. Enable automatic updating of Yunohost applications by setting the value to `True`.
+  - `ynh_autoupdate.system`: is mandatory. Enable automatic updating of the Yunohost system by setting the value to `True`.
+  - `ynh_autoupdate.dest_script`: it is the path to the directory where the update script will be installed on the server. The default value is `/usr/local/bin`. The script is named `ynh_autoupdate.sh`.
+
+If available, updates are done automatically. In case of problems following an application update, you can read logs located in `/var/log/yunohost/categories/operation` . You also have the possibility to rollback to the previous version since Yunohost always makes an automatic backup of an application when it is updated. 
+
+To learn more about how updates work in Yunohost you can go [here](https://yunohost.org/fr/update). The changelog of Yunohost versions is also available [here](https://forum.yunohost.org/tag/ynh_release).
 
 ## Dependencies
 

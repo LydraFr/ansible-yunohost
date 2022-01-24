@@ -111,14 +111,14 @@ ynh_apps:
 - `label` permet de donner un nom personnalisé à l'application sur l'interface utilisateur.
 - `link` correspond au nom de l'application Yunohost qu'on veut installer.
 
-#### Concernant les arguments :
-- `domain` est indispensable. Il faut choisir un des domaines de son instance Yunohost.
-- `path` est indispensable. Il faut choisir une URL pour accéder à son application comme `domain.tld/my_app`. Utilisez juste `/` si l'application doit s'installer sur un sous-domaine.
+#### Concernant les arguments
+- `domain` est obligatoire. Il faut choisir un des domaines de son instance Yunohost.
+- `path` est obligatoire. Il faut choisir une URL pour accéder à son application comme `domain.tld/my_app`. Utilisez juste `/` si l'application doit s'installer sur un sous-domaine.
 - `is_public` est  un argument qu'on retrouve souvent. Paramétré sur `yes`, l'application sera accessible à tout le monde, même sans authentification sur le portail SSO Yunohost. Paramétré sur `no`, l'application ne sera accessible qu'après authentification.
 
 Pour les autres arguments, il faut se référer au `manifest.json` disponible dans le dépôt de l'application Yunohost qu'on installe. Vous pouvez en apprendre plus sur cette partie [ici](https://yunohost.org/fr/packaging_apps_manifest).
 
-#### Concernant la post-installation :
+#### Concernant la post-installation
 Il est possible de compléter l'installation des applications par l'ajout de templates jinja de configuration ou de scripts que vous aurez écrit de votre côté. 
 Pour activer cette fonctionnalité, définissez la variable `post_install` qui correspond à la liste des fichiers de post-installation de votre application.
 Cette tâche utilisant le module template, vous pouvez tout à fait utiliser vos propres variables et les appeler dans vos fichiers de template. Pour en savoir sur ce module, cliquez [ici](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/template_module.html).
@@ -130,6 +130,30 @@ Cette tâche utilisant le module template, vous pouvez tout à fait utiliser vos
   - Si vous précisez comme valeur `config` alors le fichier de template aura pour droits 660. Il sera transféré sur le serveur Yunohost (généralement dans `/var/www/AppName/`) et vous pourrez l'importer avec un script shell à côté par exemple.
 
 Pour `owner` et `group`, par défaut le fichier va prendre comme utilisateur propriétaire le nom de l'application et comme groupe propriétaire www-data (groupe NGINX). Vous pouvez les changer en précisant des valeurs différentes.
+
+### Concernant les mises à jour
+
+```yml
+# Autoupdate Yunohost and its apps
+ynh_autoupdate:
+  scheduled: True
+  special_time: "daily" #Choices are [annually,daily,hourly,monthly,reboot,weekly,yearly]
+  apps: True
+  system: True
+  dest_script: "/usr/bin/"
+```
+
+Une tâche cron peut être mise en place pour automatiser la vérification des mises à jour système et applications suivant la périodicité de votre choix. 
+  - `ynh_autoupdate.scheduled` : activez la tâche cron en mettant la valeur à `True`.
+  - `ynh_autoupdate.special_time`: est obligatoire. Elle permet de préciser quand vous souhaitez que cette tâche soit exécutée. Valeurs possibles : (`annually`,`daily`,`hourly`,`monthly`,`reboot`,`weekly`,`yearly`). 
+  Pour en savoir plus sur les _special times_, cliquez [ici](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/cron_module.html).
+  - `ynh_autoupdate.apps` : est obligatoire. Activez la mise à jour automatique des applications Yunohost en mettant la valeur à `True`.
+  - `ynh_autoupdate.system` : est obligatoire. Activez la mise à jour automatique du système Yunohost en mettant la valeur à `True`.
+  - `ynh_autoupdate.dest_script` : c'est le chemin du répertoire où le script de mise à jour sera installé sur le serveur. La valeur par défaut est `/usr/local/bin`. Le script s'appelle `ynh_autoupdate.sh`.
+
+Si des mises à jour sont disponibles, elles sont faites automatiquement. En cas de problème suite à la mise à jour d'une application, vous pouvez lire les logs qui sont disponibles ici `/var/log/yunohost/categories/operation`. Vous avez aussi la possibilité de revenir à la version précédente car Yunohost fait toujours une sauvegarde automatique d'une application lorsqu'elle est mise à jour. 
+
+Pour en savoir plus sur le fonctionnement des mises à jour dans Yunohost vous pouvez vous rendre [ici](https://yunohost.org/fr/update). Le changelog des versions de Yunohost est aussi disponible [ici](https://forum.yunohost.org/tag/ynh_release).
 
 ## Dépendances
 

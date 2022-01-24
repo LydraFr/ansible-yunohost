@@ -1,0 +1,14 @@
+#!/bin/sh
+
+yunohost tools update
+{% if ynh_autoupdate.system %}
+    yunohost tools upgrade system
+{% endif %}
+{% if ynh_autoupdate.apps %}
+    yunohost tools upgrade apps
+{% endif %}
+{% if ynh_autoupdate.system is false and ynh_autoupdate.apps is false %}
+    echo "Read the readme to know more about ynh_autoupdate.apps and ynh_autoupdate.system"
+    echo "https://lab.frogg.it/lydra/yunohost/ansible-yunohost/-/blob/main/README.md"
+    exit 1
+{% endif %}

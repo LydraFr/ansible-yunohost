@@ -18,45 +18,8 @@
 #                                                                             #
 #-----------------------------------------------------------------------------#
 
-# -*- coding: utf-8 -*-
-# Doc: https://docs.gitlab.com/ce/ci/yaml/#include
-
-include:
-  - project: 'froggit/ci/gci-tpl'
-    ref: 0.0.1
-    file:
-      - '/templates/stages.yml'
-      - '/templates/job/ansible/lint.yml'
-
-# No playbook in this repo
-ansible-syntax-check:
-  rules:
-    - when: never
-
-# For Ansible Galaxy Scoring
-# https://galaxy.ansible.com/docs/contributing/content_scoring.html
-yaml-lint:
-  image:
-    name: cytopia/yamllint:1.26
-    entrypoint: ["/bin/sh", "-c"]
-  stage: lint
-  before_script:
-    - yamllint --version
-  script:
-    - ls **/*.yml
-    - yamllint -c .yamllint.yml -f colored .
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "push"'
-      changes:
-        - "**/*.yml"
-
-galaxy-lint:
-  extends: ansible-lint
-  before_script:
-    - ansible-lint --version
-  script:
-    - ansible-lint  **/*.yml
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "push"'
-      changes:
-        - "**/*.yml"
+- name: Install Yunohost apps
+  ansible.builtin.include_tasks: apps.yml
+  when: ynh_apps
+  tags:
+    - apps

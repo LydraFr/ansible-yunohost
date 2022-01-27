@@ -1,7 +1,7 @@
 ---
 #-----------------------------------------------------------------------------#
 # ansible-yunohost allows to deploy Yunohost using Ansible                    #
-# Copyright 2021-2021 Lydra https://www.lydra.fr/                             #
+# Copyright 2021-present Lydra https://www.lydra.fr/                          #
 #                                                                             #
 # this program is free software: you can redistribute it and/or modify        #
 # it under the terms of the GNU General Public License as published by        #
@@ -36,20 +36,7 @@ ynh_users: null
   #   lastname: Doe
   #   mail_domain: domain.tld
 
-# Do not touch this variable
-# Just to have dict default value
-ynh_smtp_relay:
-  value: null
-
-# SMTP custom settings (Only override if you need a SMTP relay)
-# Example:
-# ynh_smtp_relay:
-    # host: smtp.domain.tld
-    # port: "25"
-    # user: user1
-    # password: Pa$$w0rd
-
-# The list of Yunohost apps.
+  # The list of Yunohost apps.
 ynh_apps: null
   # - label: Tiny Tiny RSS
   #   link: ttrss
@@ -62,11 +49,3 @@ ynh_apps: null
   #       type: script
   #       owner: ttrss # Only provide if different from app name
   #       group: ttrss # Only provide if different from www-data
-
-# Autoupdate Yunohost and its apps
-ynh_autoupdate:
-  scheduled: False
-  # special_time: "daily" #Choices are [annually,daily,hourly,monthly,reboot,weekly,yearly]
-  # apps: True
-  # system: True
-  # dest_script: "/usr/local/bin/"

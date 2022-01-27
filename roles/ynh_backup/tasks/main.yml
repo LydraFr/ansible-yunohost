@@ -1,7 +1,7 @@
 ---
 #-----------------------------------------------------------------------------#
 # ansible-yunohost allows to deploy Yunohost using Ansible                    #
-# Copyright 2021-2021 Lydra https://www.lydra.fr/                             #
+# Copyright 2021-present Lydra https://www.lydra.fr/                          #
 #                                                                             #
 # this program is free software: you can redistribute it and/or modify        #
 # it under the terms of the GNU General Public License as published by        #
@@ -18,17 +18,8 @@
 #                                                                             #
 #-----------------------------------------------------------------------------#
 
-- name: List currently installed apps
-  ansible.builtin.command: yunohost app map --output-as json
-  register: ynh_installed_apps_raw
-  changed_when: False
-
-- name: Format json of apps
-  ansible.builtin.set_fact: ynh_installed_apps="{{ ynh_installed_apps_raw.stdout | from_json }}"
-
-- name: Install yunohost apps and perform post-install
-  ansible.builtin.include_tasks: app.yml
-  loop: "{{ ynh_apps }}"
-  loop_control:
-    loop_var: ynh_app
-  when: ynh_app.label not in ynh_installed_apps.values()
+- name: Enable Yunohost apps backup
+  ansible.builtin.include_tasks: backup.yml
+  when: ynh_backup.scheduled
+  tags:
+    - backup

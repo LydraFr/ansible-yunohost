@@ -1,0 +1,8 @@
+#!/bin/sh
+
+yunohost backup create {% if ynh_backup.system %}--system{% endif %}{% if ynh_backup.apps %} --apps{% endif %}{% if ynh_backup.directory %} --output-directory {{ ynh_backup.directory }}/backup_$(date +%Y%m%d_%H%M) {% endif %}
+
+{% if ynh_backup.system is false and ynh_backup.apps is false %}
+    echo "Read the readme to know more about vars ynh_backup.system and ynh_backup.apps"
+    exit 1
+{% endif %}

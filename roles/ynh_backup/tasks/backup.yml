@@ -1,7 +1,7 @@
 ---
 #-----------------------------------------------------------------------------#
 # ansible-yunohost allows to deploy Yunohost using Ansible                    #
-# Copyright 2021-2021 Lydra https://www.lydra.fr/                             #
+# Copyright 2021-present Lydra https://www.lydra.fr/                          #
 #                                                                             #
 # this program is free software: you can redistribute it and/or modify        #
 # it under the terms of the GNU General Public License as published by        #
@@ -18,13 +18,35 @@
 #                                                                             #
 #-----------------------------------------------------------------------------#
 
-- name: Get current SMTP settings
-  ansible.builtin.command:
-    "yunohost settings get smtp.relay.{{ item.key }}"
-  register: _ynh_smtp_current_values
-  changed_when: False
+- name: Create backup folder
+  ansible.builtin.file:
+    path: "{{ ynh_backup.directory | default('/home/yunohost.backup/archives') }}"
+    state: directory
+    mode: '0750'
+  tags:
+    - backup
 
-- name: Set new SMTP settings
-  ansible.builtin.command:
-    "yunohost settings set smtp.relay.{{ item.key }} -v {{ item.value }}"
-  when: _ynh_smtp_current_values.stdout != item.value
+- name: Create backup script
+  ansible.builtin.template:
+    src: "{{ ynh_backup.src_script | default('templates/ynh_backup.sh.j2') }}"
+    dest: "{{ ynh_backup.dest_script | default('/usr/local/bin/') }}ynh_backup.sh"
+    owner: root
+    group: root
+    mode: '0740'
+  tags:
+    - backup
+    - cron
+
+- name: Create cron task to perform YNH backup
+  ansible.builtin.cron:
+    name: "auto-backup to {{ ynh_backup.directory | default('/home/yunohost.backup/archives') }}"
+    month: "{{ ynh_backup.scheduled_month | default('*') }}"
+    weekday: "{{ ynh_backup.scheduled_weekday | default('*') }}"
+    hour: "{{ ynh_backup.scheduled_hour | default('1') }}"
+    minute: "{{ ynh_backup.scheduled_minute | default('0') }}"
+    user: root
+    job: "{{ ynh_backup.dest_script | default('/usr/local/bin/') }}ynh_backup.sh"
+    cron_file: ynh_backup_cron
+  tags:
+    - backup
+    - cron

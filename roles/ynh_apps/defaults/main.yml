@@ -18,24 +18,16 @@
 #                                                                             #
 #-----------------------------------------------------------------------------#
 
-- name: List currently installed apps
-  ansible.builtin.command: yunohost app map --output-as json
-  register: ynh_installed_apps_raw
-  changed_when: False
-  tags:
-    - apps
-
-- name: Format json of apps
-  ansible.builtin.set_fact: ynh_installed_apps="{{ ynh_installed_apps_raw.stdout | from_json }}"
-  tags:
-    - apps
-
-- name: Install yunohost apps and perform post-install
-  ansible.builtin.include_tasks: app.yml
-  loop: "{{ ynh_apps }}"
-  loop_control:
-    loop_var: ynh_app
-  when: ynh_app.label not in ynh_installed_apps.values()
-  tags:
-    - apps
-
+# The list of Yunohost apps.
+ynh_apps: null
+  # - label: Tiny Tiny RSS
+  #   link: ttrss
+  #   args:
+  #     domain: domain.tld
+  #     path: /ttrss
+  #   post_install:
+  #     - src: "templates/file.sh.j2"
+  #       dest: "/tmp/script.sh"
+  #       type: script
+  #       owner: ttrss # Only provide if different from app name
+  #       group: ttrss # Only provide if different from www-data

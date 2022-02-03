@@ -35,17 +35,3 @@ ynh_users: null
   #   firstname: Jane
   #   lastname: Doe
   #   mail_domain: domain.tld
-
-  # The list of Yunohost apps.
-ynh_apps: null
-  # - label: Tiny Tiny RSS
-  #   link: ttrss
-  #   args:
-  #     domain: domain.tld
-  #     path: /ttrss
-  #   post_install:
-  #     - src: "templates/file.sh.j2"
-  #       dest: "/tmp/script.sh"
-  #       type: script
-  #       owner: ttrss # Only provide if different from app name
-  #       group: ttrss # Only provide if different from www-data

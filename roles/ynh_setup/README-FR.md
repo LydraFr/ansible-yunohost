@@ -19,10 +19,23 @@ Les variables par défaut sont disponibles dans `default/main.yml` cependant il 
 ynh_install_script_url: https://install.yunohost.org
 
 ynh_admin_password: MYINSECUREPWD_PLZ_OVERRIDE_THIS
+
+ynh_dir: "/data/yunohost"
+
+ynh_data_dirs:
+  - path: "{{ ynh_dir }}/etc"
+    link: "/etc/yunohost"
+  - path: "{{ ynh_dir }}/var"
+    link: "/var/www"
+ynh_data_dirs.enabled: True
 ```
 
 - `ynh_install_script_url` est le script d'installation des packages Yunohost, par défaut c'est le script officiel. Yunohost ne s'installe que sur Debian 10.
 - `ynh_admin_password` est le mot de passe permettant d'accéder à l’interface d’administration du serveur.
+
+- `ynh_data_dirs.enabled`: active les liens symboliques et permet de déplacer les répertoires de configurations et de données de YunoHost où vous le desirez. Mettez la valeur à `True`.
+- `ynh_data_dirs.path`: il s'agit des répertoires où stocker les données de configuration de Yunohost ainsi que les applications.
+- `ynh_data_dirs.link`: il s'agit des répertoire où seront fait les liens symboliques.
 
 ### Gestion des domaines
 

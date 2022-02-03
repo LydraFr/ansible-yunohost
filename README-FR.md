@@ -45,6 +45,7 @@ Ces tags sont applicables suivant les rôles.
 |smtp|Tâches liées aux paramètres de relais smtp de Yunohost.|
 |backup|Tâches liées aux sauvegardes de Yunohost.|
 |pkg|Tâches d'installation de paquets.|
+|linux|Tâches liées à l'OS Linux.|
 
 ## License
 

@@ -27,40 +27,28 @@
   tags:
     - pkg
     - linux
-    - yunohost
 
-- name: Create apps and config directories
+- name: Create data and config subdirs of Yunohost
   ansible.builtin.file:
-    path: "{{ item }}"
+    path: "{{ item.path }}"
     state: directory
-    mode: 0770
-  loop:
-    - "{{ ynh_symlink.appdata_dir }}"
-    - "{{ ynh_symlink.conf_dir }}"
+    mode: "0755"
+  with_items:
+    - "{{ ynh_data_dirs }}"
   tags:
     - linux
-    - yunohost
-  when: ynh_symlink.enabled
+  when: ynh_data_dirs_enabled
 
-- name: Create symbolic link for Yunohost apps data directory
+- name: Create symbolic links for Yunohost subdirs
   ansible.builtin.file:
-    src: /var/www/
-    dest: "{{ ynh_symlink.appdata_dir }}/www_symlink"
+    src: "{{ item.path }}"
+    dest: "{{ item.link }}"
     state: link
+  with_items:
+    - "{{ ynh_data_dirs }}" 
   tags:
     - linux
-    - yunohost
-  when: ynh_symlink.enabled
-
-- name: Create symbolic link for Yunohost configuration directory
-  ansible.builtin.file:
-    src: /etc/yunohost/
-    dest: "{{ ynh_symlink.conf_dir }}/yunohost_symlink"
-    state: link
-  tags:
-    - linux
-    - yunohost
-  when: ynh_symlink.enabled
+  when: ynh_data_dirs_enabled
 
 - name: Test if Yunohost is already installed
   ansible.builtin.stat: path=/etc/yunohost/installed

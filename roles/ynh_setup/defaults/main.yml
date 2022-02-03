@@ -23,6 +23,15 @@ ynh_install_script_url: https://install.yunohost.org
 
 ynh_admin_password: MYINSECUREPWD_PLZ_OVERRIDE_THIS
 
+ynh_dir: "/data/yunohost"
+
+ynh_data_dirs:
+  - path: "{{ ynh_dir }}/etc"
+    link: "/etc/yunohost"
+  - path: "{{ ynh_dir }}/var"
+    link: "/var/www"
+ynh_data_dirs_enabled: True
+
 # The list of Yunohost domains.
 ynh_main_domain: domain.tld
 ynh_extra_domains: null

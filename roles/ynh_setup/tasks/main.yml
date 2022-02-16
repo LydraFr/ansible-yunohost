@@ -17,6 +17,13 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.        #
 #                                                                             #
 #-----------------------------------------------------------------------------#
+- name: Update all packages and index
+  ansible.builtin.apt:
+    upgrade: dist
+    update_cache: yes
+  tags:
+    - pkg
+    - linux
 
 - name: Install requirements
   ansible.builtin.apt:
@@ -45,7 +52,7 @@
     dest: "{{ item.link }}"
     state: link
   with_items:
-    - "{{ ynh_data_dirs }}" 
+    - "{{ ynh_data_dirs }}"
   tags:
     - linux
   when: ynh_data_dirs_enabled

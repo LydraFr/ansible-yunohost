@@ -26,6 +26,7 @@ Votre serveur doit être basé sur du Debian Buster et Yunohost ne doit pas déj
 ### Rôles
 
 - [`lydra.yunohost.ynh_setup`](roles/ynh_setup/README-FR.md) : Ce rôle prépare les serveurs à base de Debian-Buster à exécuter Yunohost. Il configure Yunohost avec ses paramètres initiaux et les domaines, utilisateurs et applications de votre choix.
+- [`lydra.yunohost.ynh_apps`](roles/ynh_apps/README-FR.md): Ce rôle installe les applications Yunohost de votre choix et peut également lancer des tâches de post-installation.
 - [`lydra.yunohost.ynh_config`](roles/ynh_config/README-FR.md) : Ce rôle gère la configuration de différents services de Yunohost (relais SMTP, mises à jour automatiques).
 - [`lydra.yunohost.ynh_backup`](roles/ynh_backup/README-FR.md) : Ce rôle gère la configuration des sauvegardes.
 
@@ -37,7 +38,7 @@ Ces tags sont applicables suivant les rôles.
 
 |tags|commentaires|
 |----|-------|
-|yunohost|Tâches spécifiques à Yunohost.|
+|yunohost|Tâches spécifiques à Yunohost lui-même (installation ou configuration).|
 |users|Tâches spécifiques aux utilisateurs de Yunohost.|
 |domains|Tâches spécifiques aux domaines liés à Yunohost.|
 |apps|Tâches spécifiques aux applications de Yunohost.|

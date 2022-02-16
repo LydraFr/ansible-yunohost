@@ -79,12 +79,6 @@ None.
   become: True
   collections:
     - lydra.yunohost
-  pre_tasks:
-    - name: Update all packages and index
-      ansible.builtin.apt:
-        upgrade: dist
-        update_cache: yes
-    
   roles:
     - ynh_setup
     - ynh_apps

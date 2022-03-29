@@ -32,4 +32,3 @@
   loop_control:
     loop_var: ynh_app
   when: ynh_app.label not in ynh_installed_apps.values()
-

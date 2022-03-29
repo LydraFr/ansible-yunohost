@@ -1,0 +1,22 @@
+# Vault password file
+.vault_pass
+
+# Ansible
+.ansible/
+*.retry
+.roles_requirements/
+.lint_rules/
+
+# Terraform
+.terraform/
+terraform.tfstate.d/
+*.tfstate
+*.tfstate.backup
+terraform.tfvars
+env.vault
+env.d/
+terraform/create_state_bucket/terraform.tf
+
+# Logs
+*.log
+*.history

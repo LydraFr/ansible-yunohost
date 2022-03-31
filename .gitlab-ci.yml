@@ -32,3 +32,31 @@ include:
 ansible-syntax-check:
   rules:
     - when: never
+
+# For Ansible Galaxy Scoring
+# https://galaxy.ansible.com/docs/contributing/content_scoring.html
+yaml-lint:
+  image:
+    name: cytopia/yamllint:1.26
+    entrypoint: ["/bin/ash", "-c"]
+  stage: lint
+  before_script:
+    - yamllint --version
+  script:
+    - ls **/*.yml
+    - yamllint -c .yamllint.yml -f colored .
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push"'
+      changes:
+        - "**/*.yml"
+
+galaxy-lint:
+  extends: ansible-lint
+  before_script:
+    - ansible-lint --version
+  script:
+    - ansible-lint  **/*.yml
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push"'
+      changes:
+        - "**/*.yml"

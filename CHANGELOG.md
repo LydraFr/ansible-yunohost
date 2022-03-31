@@ -14,7 +14,7 @@ and the commits message folow the [Conventional Commits](https://www.conventiona
 ### Changed
 - This role is now divided into four roles: `ynh_setup`, `ynh_config`, `ynh_apps`, `ynh_backup`. Each role has its own README so you can easily navigate between them and understand their purpose. 
 
-## [0.2.0] - date to be defined before release
+## [0.2.0] - 2022-03-31
 ### Added
 - Creation of the CHANGELOG.
 - CI: Ansible galaxy lint

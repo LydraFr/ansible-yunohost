@@ -38,7 +38,7 @@ ansible-syntax-check:
 yaml-lint:
   image:
     name: cytopia/yamllint:1.26
-    entrypoint: ["/bin/ash", "-c"]
+    entrypoint: ["/bin/sh", "-c"]
   stage: lint
   before_script:
     - yamllint --version

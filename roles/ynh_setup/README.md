@@ -30,10 +30,10 @@ ynh_data_dirs:
 ynh_data_dirs.enabled: True
 ```
 
-- `ynh_install_script_url` downloads official Yunohost script for installing Yunohost packages. Yunohost is only available on Debian 10.
+- `ynh_install_script_url` The url provided downloads the official Yunohost script for installing Yunohost packages. Yunohost is only available on Debian 10.
 - `ynh_admin_password` is the password used to access to the server's administration interface.
 
-- `ynh_data_dirs.enabled`: Enables symbolic links and allows you to move YunoHost's configuration and data directories wherever you want. Set the value to `True`.
+- `ynh_data_dirs.enabled`: Enables symbolic links and allows you to move YunoHost's configuration and data directories wherever you want. By default, this value is set to `True`. We use symbolic links because the `/data` folder is used by us to make _object storage_ backups.
 - `ynh_data_dirs.path`: these are the directories where Yunohost configuration data and applications are stored.
 - `ynh_data_dirs.link`: this is the directory where symbolic links will be made.
 

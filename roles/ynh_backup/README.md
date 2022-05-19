@@ -6,19 +6,13 @@ Deploy [Yunohost](https://yunohost.org/#/) with Ansible!
 
 ## Requirements
 
-------------
-
 Yunohost needs to be installed on your server.
 
 ## Role Variables
 
-------------
-
 Default variables are available in `default/main.yml` however it is necessary to override them according to your needs for ...
 
 ### Backups management
-
-------------
 
 ```yml
 ynh_backup:
@@ -46,13 +40,9 @@ The backup task will allow to backup Yunohost applications and their data by set
 
 ## Dependencies
 
-------------
-
 None.
 
 ## Example Playbook
-
-------------
 
 ```yml
 ---
@@ -66,8 +56,6 @@ None.
 ```
 
 ## License
-
-------------
 
 [![ansible-yunohost Copyright 2021 Lydra](https://www.gnu.org/graphics/gplv3-with-text-136x68.png)](https://choosealicense.com/licenses/gpl-3.0/)
 

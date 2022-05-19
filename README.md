@@ -8,7 +8,7 @@
 [![GitHub Release Date](https://img.shields.io/github/release-date/LydraFr/ansible-yunohost)](https://github.com/LydraFr/ansible-yunohost)
 [![GitHub Repo stars](https://img.shields.io/github/stars/LydraFr/ansible-yunohost?style=social)](https://github.com/LydraFr/ansible-yunohost)
 
-# Ansible Collection - lydra.yunohost
+# Ansible Collection - `lydra.yunohost`
 
 [🇫🇷 French version](README-FR.md)
 
@@ -16,8 +16,6 @@ This collection aims at installing, configuring and backing up [Yunohost](https:
 As this is an independent collection, it can be released on its own release cadence. Moreover, the roles it contains are updated independently.
 
 # Prerequisites
-
-------------
 
 Your server must be Debian-Buster based and Yunohost shouldn't be already installed.
 
@@ -30,9 +28,7 @@ Your server must be Debian-Buster based and Yunohost shouldn't be already instal
 - [`lydra.yunohost.ynh_config`](roles/ynh_config/README.md): This role configures various Yunohost services (SMTP relay, auto updates).
 - [`lydra.yunohost.ynh_backup`](roles/ynh_backup/README.md): This role manages the configuration of backups.
 
-## lydra.yunohost Role Tags
-
-------------
+## Role Tags
 
 These tags are applicable to roles.
 
@@ -49,8 +45,6 @@ These tags are applicable to roles.
 |linux|Tasks related to Linux OS.|
 
 ## License
-
-------------
 
 [![ansible-yunohost Copyright 2021 Lydra](https://www.gnu.org/graphics/gplv3-with-text-136x68.png)](https://choosealicense.com/licenses/gpl-3.0/)
 

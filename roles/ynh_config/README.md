@@ -6,19 +6,13 @@ Deploy [Yunohost](https://yunohost.org/#/) with Ansible!
 
 ## Requirements
 
-------------
-
 None.
 
 ## Role Variables
 
-------------
-
 Default variables are available in `default/main.yml` however it is necessary to override them according to your needs for Yunohost domains, users and apps.
 
 ### SMTP relay configuration
-
-------------
 
 ```yml
 # SMTP custom settings
@@ -32,9 +26,7 @@ ynh_smtp_relay:
 There is a built-in SMTP server on Yunohost but you can also set up Yunohost to use a SMTP relay instead.
 In order to do so, create the `ynh_smtp_relay` variable and provide your own values. You can learn more about SMTP relay [here](https://yunohost.org/en/administrate/specific_use_cases/email_relay).
 
-### About the updates
-
-------------
+### Updates configuration
 
 ```yml
 # Autoupdate Yunohost and its apps
@@ -60,13 +52,9 @@ To learn more about how updates work in Yunohost you can go [here](https://yunoh
 
 ## Dependencies
 
-------------
-
 None.
 
 ## Example Playbook
-
-------------
 
 ```yml
 ---
@@ -80,8 +68,6 @@ None.
 ```
 
 ## License
-
-------------
 
 [![ansible-yunohost Copyright 2021 Lydra](https://www.gnu.org/graphics/gplv3-with-text-136x68.png)](https://choosealicense.com/licenses/gpl-3.0/)
 

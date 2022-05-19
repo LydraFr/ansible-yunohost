@@ -8,7 +8,7 @@
 [![GitHub Release Date](https://img.shields.io/github/release-date/LydraFr/ansible-yunohost)](https://github.com/LydraFr/ansible-yunohost)
 [![GitHub Repo stars](https://img.shields.io/github/stars/LydraFr/ansible-yunohost?style=social)](https://github.com/LydraFr/ansible-yunohost)
 
- Collection Ansible - lydra.yunohost
+ Collection Ansible - `lydra.yunohost`
 
 [🇬🇧 English version](README.md)
 
@@ -17,22 +17,18 @@ Comme il s'agit d'une collection indépendante, elle peut être publiée selon s
 
 ## Prérequis
 
-------------
-
 Votre serveur doit être basé sur du Debian Buster et Yunohost ne doit pas déjà être installé.
 
 ## Contenu de la collection
 
 ### Rôles
 
-- [`lydra.yunohost.ynh_setup`](roles/ynh_setup/README-FR.md) : Ce rôle prépare les serveurs à base de Debian-Buster à exécuter Yunohost. Il configure Yunohost avec ses paramètres initiaux et les domaines, utilisateurs et applications de votre choix.
-- [`lydra.yunohost.ynh_apps`](roles/ynh_apps/README-FR.md): Ce rôle installe les applications Yunohost de votre choix et peut également lancer des tâches de post-installation.
+- [`lydra.yunohost.ynh_setup`](roles/ynh_setup/README-FR.md) : Ce rôle prépare les serveurs à base de Debian-Buster à exécuter Yunohost. Il configure Yunohost avec ses paramètres initiaux, les domaines et les utilisateurs de votre choix.
+- [`lydra.yunohost.ynh_apps`](roles/ynh_apps/README-FR.md): Ce rôle installe les applications Yunohost de votre choix et peut également les configurer grâce aux tâches de post-installation.
 - [`lydra.yunohost.ynh_config`](roles/ynh_config/README-FR.md) : Ce rôle gère la configuration de différents services de Yunohost (relais SMTP, mises à jour automatiques).
 - [`lydra.yunohost.ynh_backup`](roles/ynh_backup/README-FR.md) : Ce rôle gère la configuration des sauvegardes.
 
-### lydra.yunohost Tags du rôle
-
-------------
+### Tags du rôle
 
 Ces tags sont applicables suivant les rôles.
 
@@ -49,8 +45,6 @@ Ces tags sont applicables suivant les rôles.
 |linux|Tâches liées à l'OS Linux.|
 
 ## License
-
-------------
 
 [![ansible-yunohost Copyright 2021 Lydra](https://www.gnu.org/graphics/gplv3-with-text-136x68.png)](https://choosealicense.com/licenses/gpl-3.0/)
 

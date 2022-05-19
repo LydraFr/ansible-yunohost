@@ -10,13 +10,9 @@ Yunohost doit déjà être installé sur votre serveur.
 
 ## Variables du rôle
 
-------------
-
 Les variables par défaut sont disponibles dans `default/main.yml` cependant il est possible de les surcharger selon vos besoins.
 
 ### Configuration d'un relais SMTP
-
-------------
 
 ```yml
 # paramètres personnalisés du relais SMTP
@@ -30,9 +26,7 @@ ynh_smtp_relay:
 Yunohost possède son propre serveur SMTP natif mais il est aussi possible de configurer Yunohost pour qu'il utilise un relais SMTP à la place.
 Pour faire cela, créez la variable `ynh_smtp_relay` et mettez vos propres valeurs. Vous pouvez en apprendre plus sur les relais SMTP [ici](https://yunohost.org/fr/administrate/specific_use_cases/email_relay).
 
-### Concernant les mises à jour
-
-------------
+### Configuration des mises à jour
 
 ```yml
 # Autoupdate Yunohost and its apps
@@ -58,13 +52,9 @@ Pour en savoir plus sur le fonctionnement des mises à jour dans Yunohost vous p
 
 ## Dépendances
 
-------------
-
 Aucune.
 
 ## Exemple de Playbook
-
-------------
 
 ```yml
 ---
@@ -78,8 +68,6 @@ Aucune.
 ```
 
 ## License
-
-------------
 
 [![ansible-yunohost Copyright 2021 Lydra](https://www.gnu.org/graphics/gplv3-with-text-136x68.png)](https://choosealicense.com/licenses/gpl-3.0/)
 

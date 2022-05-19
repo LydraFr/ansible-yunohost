@@ -37,7 +37,7 @@
     - backup
     - cron
 
-- name: Create cron task to perform YNH backup
+- name: Create cron task to schedule YNH backup script
   ansible.builtin.cron:
     name: "auto-backup to {{ ynh_backup.directory | default('/home/yunohost.backup/archives') }}"
     month: "{{ ynh_backup.scheduled_month | default('*') }}"

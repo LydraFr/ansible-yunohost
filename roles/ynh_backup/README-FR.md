@@ -6,19 +6,13 @@ Sauvegardez [Yunohost](https://yunohost.org/#/) avec Ansible !
 
 ## Prérequis
 
-------------
-
 Yunohost doit déjà être installé sur votre serveur.
 
 ## Variables du rôle
 
-------------
-
 Les variables par défaut sont disponibles dans `default/main.yml` cependant il est possible de les surcharger selon vos besoins en ...
 
 ### Gestion des sauvegardes
-
-------------
 
 ```yml
 ynh_backup:
@@ -46,13 +40,9 @@ La tâche backup va permettre de sauvegarder les applications Yunohost ainsi que
 
 ## Dépendances
 
-------------
-
 Aucune.
 
 ## Exemple de Playbook
-
-------------
 
 ```yml
 ---
@@ -66,8 +56,6 @@ Aucune.
 ```
 
 ## License
-
-------------
 
 [![ansible-yunohost Copyright 2021 Lydra](https://www.gnu.org/graphics/gplv3-with-text-136x68.png)](https://choosealicense.com/licenses/gpl-3.0/)
 

@@ -1,7 +1,7 @@
 ---
 #-----------------------------------------------------------------------------#
 # ansible-yunohost allows to deploy Yunohost using Ansible                    #
-# Copyright 2021-2021 Lydra https://www.lydra.fr/                             #
+# Copyright 2021-present Lydra https://www.lydra.fr/                          #
 #                                                                             #
 # this program is free software: you can redistribute it and/or modify        #
 # it under the terms of the GNU General Public License as published by        #
@@ -18,13 +18,13 @@
 #                                                                             #
 #-----------------------------------------------------------------------------#
 
-- name: Get current SMTP settings
-  ansible.builtin.command:
-    "yunohost settings get smtp.relay.{{ item.key }}"
-  register: _ynh_smtp_current_values
-  changed_when: False
-
-- name: Set new SMTP settings
-  ansible.builtin.command:
-    "yunohost settings set smtp.relay.{{ item.key }} -v {{ item.value }}"
-  when: _ynh_smtp_current_values.stdout != item.value
+# Variables for backup
+ynh_backup:
+  scheduled: False
+  # directory: "/data/backup"
+  # scheduled_hour: 3
+  # scheduled_minute: "0"
+  # scheduled_weekday: "*"
+  # scheduled_month: "*"
+  # system: True
+  # apps: True

@@ -1,7 +1,7 @@
 ---
 #-----------------------------------------------------------------------------#
 # ansible-yunohost allows to deploy Yunohost using Ansible                    #
-# Copyright 2021-2021 Lydra https://www.lydra.fr/                             #
+# Copyright 2021-present Lydra https://www.lydra.fr/                          #
 #                                                                             #
 # this program is free software: you can redistribute it and/or modify        #
 # it under the terms of the GNU General Public License as published by        #
@@ -18,20 +18,24 @@
 #                                                                             #
 #-----------------------------------------------------------------------------#
 
-- name: List users
-  ansible.builtin.command: yunohost user list --output-as json
-  register: ynh_registered_users_raw
+- name: List currently installed domains
+  ansible.builtin.command: yunohost domain list --output-as json
+  register: ynh_installed_domains_raw
   changed_when: False
+  tags:
+    - yunohost
+    - domains
 
-- name: Format json of users
-  ansible.builtin.set_fact: ynh_registered_users="{{ ynh_registered_users_raw.stdout | from_json }}"
+- name: Format json of domains
+  ansible.builtin.set_fact: ynh_installed_domains="{{ ynh_installed_domains_raw.stdout | from_json }}"
+  tags:
+    - yunohost
+    - domains
 
-- name: Create missing Yunohost users
-  ansible.builtin.command:
-    yunohost user create "{{ item.name }}" \
-    -f "{{ item.firstname }}" \
-    -l "{{ item.lastname }}" \
-    -d "{{ item.mail_domain }}" \
-    -p "{{ item.pass }}"
-  loop: "{{ ynh_users }}"
-  when: item.name not in ynh_registered_users.users.keys()
+- name: Create domains
+  ansible.builtin.command: yunohost domain add {{ item }}
+  with_items: "{{ ynh_extra_domains }}"
+  when: item not in ynh_installed_domains.domains
+  tags:
+    - yunohost
+    - domains

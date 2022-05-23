@@ -18,45 +18,23 @@
 #                                                                             #
 #-----------------------------------------------------------------------------#
 
-# -*- coding: utf-8 -*-
-# Doc: https://docs.gitlab.com/ce/ci/yaml/#include
+- name: List currently installed apps
+  ansible.builtin.command: yunohost app map --output-as json
+  register: ynh_installed_apps_raw
+  changed_when: False
+  tags:
+    - apps
 
-include:
-  - project: 'froggit/ci/gci-tpl'
-    ref: 0.0.1
-    file:
-      - '/templates/stages.yml'
-      - '/templates/job/ansible/lint.yml'
+- name: Format json of apps
+  ansible.builtin.set_fact: ynh_installed_apps="{{ ynh_installed_apps_raw.stdout | from_json }}"
+  tags:
+    - apps
 
-# No playbook in this repo
-ansible-syntax-check:
-  rules:
-    - when: never
-
-# For Ansible Galaxy Scoring
-# https://galaxy.ansible.com/docs/contributing/content_scoring.html
-yaml-lint:
-  image:
-    name: cytopia/yamllint:1.26
-    entrypoint: ["/bin/sh", "-c"]
-  stage: lint
-  before_script:
-    - yamllint --version
-  script:
-    - ls **/*.yml
-    - yamllint -c .yamllint.yml -f colored .
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "push"'
-      changes:
-        - "**/*.yml"
-
-galaxy-lint:
-  extends: ansible-lint
-  before_script:
-    - ansible-lint --version
-  script:
-    - ansible-lint  **/*.yml
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "push"'
-      changes:
-        - "**/*.yml"
+- name: Install yunohost apps and perform post-install
+  ansible.builtin.include_tasks: app.yml
+  loop: "{{ ynh_apps }}"
+  loop_control:
+    loop_var: ynh_app
+  when: ynh_app.label not in ynh_installed_apps.values()
+  tags:
+    - apps

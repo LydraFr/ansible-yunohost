@@ -1,7 +1,7 @@
 ---
 #-----------------------------------------------------------------------------#
 # ansible-yunohost allows to deploy Yunohost using Ansible                    #
-# Copyright 2021-2021 Lydra https://www.lydra.fr/                             #
+# Copyright 2021-present Lydra https://www.lydra.fr/                          #
 #                                                                             #
 # this program is free software: you can redistribute it and/or modify        #
 # it under the terms of the GNU General Public License as published by        #
@@ -18,19 +18,8 @@
 #                                                                             #
 #-----------------------------------------------------------------------------#
 
-- name: Creates Yunohost autoupdate script
-  ansible.builtin.template:
-    src: "templates/ynh_autoupdate.sh.j2"
-    dest: "{{ ynh_autoupdate.dest_script | default('/usr/local/bin/') }}ynh_autoupdate.sh"
-    owner: root
-    group: root
-    mode: '0740'
-
-- name: Creates cron task under /etc/cron.d to auto-update Yunohost
-  ansible.builtin.cron:
-    name: "auto-update Yunohost
-          Logs can be found in /var/log/yunohost/categories/operation"
-    special_time: "{{ ynh_autoupdate.special_time }}"
-    user: root
-    job: "{{ ynh_autoupdate.dest_script | default('/usr/local/bin/') }}ynh_autoupdate.sh"
-    cron_file: ynh_autoupdate_cron
+- name: Enable Yunohost apps backup
+  ansible.builtin.include_tasks: backup.yml
+  when: ynh_backup.scheduled
+  tags:
+    - backup

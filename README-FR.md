@@ -8,173 +8,41 @@
 [![GitHub Release Date](https://img.shields.io/github/release-date/LydraFr/ansible-yunohost)](https://github.com/LydraFr/ansible-yunohost)
 [![GitHub Repo stars](https://img.shields.io/github/stars/LydraFr/ansible-yunohost?style=social)](https://github.com/LydraFr/ansible-yunohost)
 
-# Rôle Ansible : Yunohost
+ Collection Ansible - `lydra.yunohost`
 
 [🇬🇧 English version](README.md)
 
-Déployez [Yunohost](https://yunohost.org/#/) avec Ansible !
+Cette collection vise à installer, configurer et sauvegarder [Yunohost](https://yunohost.org/#/).
+Comme il s'agit d'une collection indépendante, elle peut être publiée selon sa propre cadence de publication. De plus, les rôles qu'elle contient sont mis à jour indépendamment.
 
 ## Prérequis
 
-Aucun.
+Votre serveur doit être basé sur du Debian Buster et Yunohost ne doit pas déjà être installé.
 
-## Variables du rôle
+## Contenu de la collection
 
-Les variables par défaut sont disponibles dans `default/main.yml` cependant il est nécessaire de les surcharger selon vos besoins en termes de domaines, d'utilisateurs et d'applications sur Yunohost.
+### Rôles
 
-### Installation de Yunohost
+- [`lydra.yunohost.ynh_setup`](roles/ynh_setup/README-FR.md) : Ce rôle prépare les serveurs à base de Debian-Buster à exécuter Yunohost. Il configure Yunohost avec ses paramètres initiaux, les domaines et les utilisateurs de votre choix.
+- [`lydra.yunohost.ynh_apps`](roles/ynh_apps/README-FR.md): Ce rôle installe les applications Yunohost de votre choix et peut également les configurer grâce aux tâches de post-installation.
+- [`lydra.yunohost.ynh_config`](roles/ynh_config/README-FR.md) : Ce rôle gère la configuration de différents services de Yunohost (relais SMTP, mises à jour automatiques).
+- [`lydra.yunohost.ynh_backup`](roles/ynh_backup/README-FR.md) : Ce rôle gère la configuration des sauvegardes.
 
-```yml
-# Script pour Debian 10 uniquement.
-ynh_install_script_url: https://install.yunohost.org
+### Tags du rôle
 
-ynh_admin_password: MYINSECUREPWD_PLZ_OVERRIDE_THIS
-```
+Ces tags sont applicables suivant les rôles.
 
-- `ynh_install_script_url` est le script d'installation des packages Yunohost, par défaut c'est le script officiel. Yunohost ne s'installe que sur Debian 10.
-- `ynh_admin_password` est le mot de passe permettant d'accéder à l’interface d’administration du serveur.
-
-### Gestion des domaines
-
-```yml
-# Liste des domaines gérés par Yunohost.
-ynh_main_domain: domain.tld
-ynh_extra_domains:
-  - forum.domain.tld
-  - wiki.domain.tld
-ynh_ignore_dyndns_server: False
-```
-
-- `ynh_main_domain` correspond au domaine principal qui permet l’accès au serveur ainsi qu’au portail d’authentification des utilisateurs. On peut se contenter d'un nom de domaine qui nous appartient ou en utiliser un en .nohost.me / .noho.st / .ynh.fr (plus d'infos [ici](https://yunohost.org/fr/install/hardware:vps_debian)).
-- `ynh_extra_domains` sont des sous-domaines optionnels. Ils permettent d'installer une application par sous-domaine (plus d'infos [ici](https://yunohost.org/fr/dns_subdomains)).
-- `ynh_ignore_dyndns_server` permet d'enregistrer les domaines avec un service de DNS dynamique (plus d'infos [ici](https://yunohost.org/fr/dns_dynamicip)).
-
-### Configuration d'un relais SMTP
-
-```yml
-# paramètres personnalisés du relais SMTP
-ynh_smtp_relay:
-    host: smtp.domain.tld
-    port: 25
-    user: user1
-    password: Pa$$w0rd
-```
-Yunohost possède son propre serveur SMTP natif mais il est aussi possible de configurer Yunohost pour qu'il utilise un relais SMTP à la place. 
-Pour faire cela, créez la variable `ynh_smtp_relay` et mettez vos propres valeurs. Vous pouvez en apprendre plus sur les relais SMTP [ici](https://yunohost.org/fr/administrate/specific_use_cases/email_relay).
-
-### Gestion des utilisateurs
-
-```yml
-# Liste des utilisateurs Yunohost.
-ynh_users:
-   - name: user1
-     pass: MYINSECUREPWD_PLZ_OVERRIDE_THIS
-     firstname: Jane
-     lastname: Doe
-     mail_domain: domain.tld 
-```
-
-- `ynh_users` est la liste des utilisateurs à créer. Chaque champ est obligatoire. Certaines applications Yunohost nécessitent qu'un utilisateur soit administrateur de l'application. Il aura ensuite le droit de gérer l'application depuis l'interface l'administration du serveur. Vous pouvez en apprendre plus sur la gestion des utilisateurs Yunohost [ici](https://yunohost.org/fr/administrate/overview/users).
-
-### Gestion des applications
-
-```yml
-# Liste des applications Yunohost.
-ynh_apps:
-  - label: WikiJS
-    link: wikijs
-    args:
-      domain: wiki.domain.tld
-      path: /
-      admin: user1
-      is_public: no
-  - label: Discourse
-    link: discourse
-    args:
-      domain: forum.domain.tld
-      path: /
-      admin: user1
-      is_public: yes
-    post_install:
-      - src: "templates/site_settings.yml.j2"
-        dest: "/var/www/discourse/config/site_settings.yml"
-        type: "config"
-
-      - src: "templates/configure_discourse.sh.j2"
-        dest: "/tmp/configure_discourse.sh"
-        type: "script"
-        owner: root
-        group: root
-```
-
-- `ynh_apps` est la liste des applications à installer.
-- `label` permet de donner un nom personnalisé à l'application sur l'interface utilisateur.
-- `link` correspond au nom de l'application Yunohost qu'on veut installer.
-
-#### Concernant les arguments
-- `domain` est obligatoire. Il faut choisir un des domaines de son instance Yunohost.
-- `path` est obligatoire. Il faut choisir une URL pour accéder à son application comme `domain.tld/my_app`. Utilisez juste `/` si l'application doit s'installer sur un sous-domaine.
-- `is_public` est  un argument qu'on retrouve souvent. Paramétré sur `yes`, l'application sera accessible à tout le monde, même sans authentification sur le portail SSO Yunohost. Paramétré sur `no`, l'application ne sera accessible qu'après authentification.
-
-Pour les autres arguments, il faut se référer au `manifest.json` disponible dans le dépôt de l'application Yunohost qu'on installe. Vous pouvez en apprendre plus sur cette partie [ici](https://yunohost.org/fr/packaging_apps_manifest).
-
-#### Concernant la post-installation
-Il est possible de compléter l'installation des applications par l'ajout de templates jinja de configuration ou de scripts que vous aurez écrit de votre côté. 
-Pour activer cette fonctionnalité, définissez la variable `post_install` qui correspond à la liste des fichiers de post-installation de votre application.
-Cette tâche utilisant le module template, vous pouvez tout à fait utiliser vos propres variables et les appeler dans vos fichiers de template. Pour en savoir sur ce module, cliquez [ici](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/template_module.html).
-
-- `src` est obligatoire. Il s'agit du répertoire où le fichier de template se situe sur la machine qui execute Ansible.
-- `dest` est obligatoire. Il s'agit du répertoire où le fichier de template va être stocké.
-- `type` est obligatoire :
-  - Si vous précisez comme valeur `script` alors le fichier de template aura pour droits 740. Il sera exécuté après son transfert sur le serveur Yunohost (généralement dans `/tmp/`) puis il sera supprimé. 
-  - Si vous précisez comme valeur `config` alors le fichier de template aura pour droits 660. Il sera transféré sur le serveur Yunohost (généralement dans `/var/www/AppName/`) et vous pourrez l'importer avec un script shell à côté par exemple.
-
-Pour `owner` et `group`, par défaut le fichier va prendre comme utilisateur propriétaire le nom de l'application et comme groupe propriétaire www-data (groupe NGINX). Vous pouvez les changer en précisant des valeurs différentes.
-
-### Concernant les mises à jour
-
-```yml
-# Autoupdate Yunohost and its apps
-ynh_autoupdate:
-  scheduled: True
-  special_time: "daily" #Choices are [annually,daily,hourly,monthly,reboot,weekly,yearly]
-  apps: True
-  system: True
-  dest_script: "/usr/bin/"
-```
-
-Une tâche cron peut être mise en place pour automatiser la vérification des mises à jour système et applications suivant la périodicité de votre choix. 
-  - `ynh_autoupdate.scheduled` : activez la tâche cron en mettant la valeur à `True`.
-  - `ynh_autoupdate.special_time`: est obligatoire. Elle permet de préciser quand vous souhaitez que cette tâche soit exécutée. Valeurs possibles : (`annually`,`daily`,`hourly`,`monthly`,`reboot`,`weekly`,`yearly`). 
-  Pour en savoir plus sur les _special times_, cliquez [ici](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/cron_module.html).
-  - `ynh_autoupdate.apps` : est obligatoire. Activez la mise à jour automatique des applications Yunohost en mettant la valeur à `True`.
-  - `ynh_autoupdate.system` : est obligatoire. Activez la mise à jour automatique du système Yunohost en mettant la valeur à `True`.
-  - `ynh_autoupdate.dest_script` : c'est le chemin du répertoire où le script de mise à jour sera installé sur le serveur. La valeur par défaut est `/usr/local/bin`. Le script s'appelle `ynh_autoupdate.sh`.
-
-Si des mises à jour sont disponibles, elles sont faites automatiquement. En cas de problème suite à la mise à jour d'une application, vous pouvez lire les logs qui sont disponibles ici `/var/log/yunohost/categories/operation`. Vous avez aussi la possibilité de revenir à la version précédente car Yunohost fait toujours une sauvegarde automatique d'une application lorsqu'elle est mise à jour. 
-
-Pour en savoir plus sur le fonctionnement des mises à jour dans Yunohost vous pouvez vous rendre [ici](https://yunohost.org/fr/update). Le changelog des versions de Yunohost est aussi disponible [ici](https://forum.yunohost.org/tag/ynh_release).
-
-## Dépendances
-
-Aucune.
-
-## Exemple de Playbook
-
-```yml
----
-- name: Install Yunohost on Debian Server
-  hosts: all
-  become: True
-  pre_tasks:
-    - name: Update all packages and index
-      ansible.builtin.apt:
-        upgrade: dist
-        update_cache: yes
-    
-  roles:
-    - lydra.yunohost
-```
+|tags|commentaires|
+|----|-------|
+|yunohost|Tâches spécifiques à Yunohost lui-même (installation ou configuration).|
+|users|Tâches spécifiques aux utilisateurs de Yunohost.|
+|domains|Tâches spécifiques aux domaines liés à Yunohost.|
+|apps|Tâches spécifiques aux applications de Yunohost.|
+|update|Tâches liées aux paramètres de mise à jour de Yunohost.|
+|smtp|Tâches liées aux paramètres de relais smtp de Yunohost.|
+|backup|Tâches liées aux sauvegardes de Yunohost.|
+|pkg|Tâches d'installation de paquets.|
+|linux|Tâches liées à l'OS Linux.|
 
 ## License
 

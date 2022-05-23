@@ -1,7 +1,7 @@
 ---
 #-----------------------------------------------------------------------------#
 # ansible-yunohost allows to deploy Yunohost using Ansible                    #
-# Copyright 2021-2021 Lydra https://www.lydra.fr/                             #
+# Copyright 2021-present Lydra https://www.lydra.fr/                          #
 #                                                                             #
 # this program is free software: you can redistribute it and/or modify        #
 # it under the terms of the GNU General Public License as published by        #
@@ -18,17 +18,34 @@
 #                                                                             #
 #-----------------------------------------------------------------------------#
 
-- name: List currently installed apps
-  ansible.builtin.command: yunohost app map --output-as json
-  register: ynh_installed_apps_raw
-  changed_when: False
+- name: Create backup folder
+  ansible.builtin.file:
+    path: "{{ ynh_backup.directory | default('/home/yunohost.backup/archives') }}"
+    state: directory
+    mode: '0750'
+  tags:
+    - backup
 
-- name: Format json of apps
-  ansible.builtin.set_fact: ynh_installed_apps="{{ ynh_installed_apps_raw.stdout | from_json }}"
+- name: Create backup script
+  ansible.builtin.template:
+    src: "{{ ynh_backup_src_script }}"
+    dest: "{{ ynh_backup_dest_script }}"
+    owner: root
+    group: root
+    mode: '0740'
+  tags:
+    - backup
 
-- name: Install yunohost apps and perform post-install
-  ansible.builtin.include_tasks: app.yml
-  loop: "{{ ynh_apps }}"
-  loop_control:
-    loop_var: ynh_app
-  when: ynh_app.label not in ynh_installed_apps.values()
+- name: Create cron task to schedule YNH backup script
+  ansible.builtin.cron:
+    name: "auto-backup to {{ ynh_backup.directory | default('/home/yunohost.backup/archives') }}"
+    month: "{{ ynh_backup.scheduled_month | default('*') }}"
+    weekday: "{{ ynh_backup.scheduled_weekday | default('*') }}"
+    hour: "{{ ynh_backup.scheduled_hour | default('1') }}"
+    minute: "{{ ynh_backup.scheduled_minute | default('0') }}"
+    user: root
+    job: "{{ ynh_backup_dest_script }}"
+    cron_file: ynh_backup_cron
+  tags:
+    - backup
+    - cron

@@ -18,45 +18,27 @@
 #                                                                             #
 #-----------------------------------------------------------------------------#
 
-# -*- coding: utf-8 -*-
-# Doc: https://docs.gitlab.com/ce/ci/yaml/#include
+- name: Creates Yunohost autoupdate script
+  ansible.builtin.template:
+    src: "templates/ynh_autoupdate.sh.j2"
+    dest: "{{ ynh_autoupdate.dest_script | default('/usr/local/bin/') }}ynh_autoupdate.sh"
+    owner: root
+    group: root
+    mode: '0740'
+  tags:
+    - yunohost
+    - update
+    - cron
 
-include:
-  - project: 'froggit/ci/gci-tpl'
-    ref: 0.0.1
-    file:
-      - '/templates/stages.yml'
-      - '/templates/job/ansible/lint.yml'
-
-# No playbook in this repo
-ansible-syntax-check:
-  rules:
-    - when: never
-
-# For Ansible Galaxy Scoring
-# https://galaxy.ansible.com/docs/contributing/content_scoring.html
-yaml-lint:
-  image:
-    name: cytopia/yamllint:1.26
-    entrypoint: ["/bin/sh", "-c"]
-  stage: lint
-  before_script:
-    - yamllint --version
-  script:
-    - ls **/*.yml
-    - yamllint -c .yamllint.yml -f colored .
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "push"'
-      changes:
-        - "**/*.yml"
-
-galaxy-lint:
-  extends: ansible-lint
-  before_script:
-    - ansible-lint --version
-  script:
-    - ansible-lint  **/*.yml
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "push"'
-      changes:
-        - "**/*.yml"
+- name: Creates cron task under /etc/cron.d to auto-update Yunohost
+  ansible.builtin.cron:
+    name: "auto-update Yunohost
+          Logs can be found in /var/log/yunohost/categories/operation"
+    special_time: "{{ ynh_autoupdate.special_time }}"
+    user: root
+    job: "{{ ynh_autoupdate.dest_script | default('/usr/local/bin/') }}ynh_autoupdate.sh"
+    cron_file: ynh_autoupdate_cron
+  tags:
+    - yunohost
+    - update
+    - cron

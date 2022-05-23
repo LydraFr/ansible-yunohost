@@ -18,45 +18,29 @@
 #                                                                             #
 #-----------------------------------------------------------------------------#
 
-# -*- coding: utf-8 -*-
-# Doc: https://docs.gitlab.com/ce/ci/yaml/#include
+- name: List users
+  ansible.builtin.command: yunohost user list --output-as json
+  register: ynh_registered_users_raw
+  changed_when: False
+  tags:
+    - yunohost
+    - users
 
-include:
-  - project: 'froggit/ci/gci-tpl'
-    ref: 0.0.1
-    file:
-      - '/templates/stages.yml'
-      - '/templates/job/ansible/lint.yml'
+- name: Format json of users
+  ansible.builtin.set_fact: ynh_registered_users="{{ ynh_registered_users_raw.stdout | from_json }}"
+  tags:
+    - yunohost
+    - users
 
-# No playbook in this repo
-ansible-syntax-check:
-  rules:
-    - when: never
-
-# For Ansible Galaxy Scoring
-# https://galaxy.ansible.com/docs/contributing/content_scoring.html
-yaml-lint:
-  image:
-    name: cytopia/yamllint:1.26
-    entrypoint: ["/bin/sh", "-c"]
-  stage: lint
-  before_script:
-    - yamllint --version
-  script:
-    - ls **/*.yml
-    - yamllint -c .yamllint.yml -f colored .
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "push"'
-      changes:
-        - "**/*.yml"
-
-galaxy-lint:
-  extends: ansible-lint
-  before_script:
-    - ansible-lint --version
-  script:
-    - ansible-lint  **/*.yml
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "push"'
-      changes:
-        - "**/*.yml"
+- name: Create missing Yunohost users
+  ansible.builtin.command:
+    yunohost user create "{{ item.name }}" \
+    -f "{{ item.firstname }}" \
+    -l "{{ item.lastname }}" \
+    -d "{{ item.mail_domain }}" \
+    -p "{{ item.pass }}"
+  loop: "{{ ynh_users }}"
+  when: item.name not in ynh_registered_users.users.keys()
+  tags:
+    - yunohost
+    - users

@@ -28,5 +28,3 @@ ynh_backup:
   # scheduled_month: "*"
   # system: True
   # apps: True
-  # src_script: "templates/ynh_backup.sh.j2"
-  # dest_script: "/usr/local/bin/"

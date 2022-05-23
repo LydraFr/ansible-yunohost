@@ -28,15 +28,13 @@ ynh_backup:
   dest_script: "/usr/bin"
 ```
 
-The backup task will allow to backup Yunohost applications and their data by setting up a cron job.
+The _backup_ task will allow to backup Yunohost applications and their data by setting up a cron job. This backup uses the one provided by [Yunohost](https://yunohost.org/fr/backup) and it is local to the server.
 
 - `ynh_backup.scheduled`: to enable the Yunohost applications backup feature, set the value to `True`.
 - `ynh_backup.directory`: the default backup folder is `/home/yunohost.backup/archives` however you can choose to save the backups in another folder with this variable. In this case, in order to be able to restore the backups from the web interface, Yunohost automatically creates a symbolic link from the created archive to its default folder.
 - `ynh_backup.scheduled_[hour|minute|weekday|month]`: modifies the scheduling of the cron task. By default it will run every day of the year at 1am. For more information about cron time settings, this tool can be useful: <https://crontab.guru/>.
 - `ynh_backup.system` : is mandatory. Enables automatic backup of the Yunohost system by setting the value to `True`.
-- `ynh_backup.apps` : est obligatoire. Enables automatic backup of Yunohost applications by setting the value to `True`.
-- `src_script`: this is the absolute path where the template file is located on the machine running Ansible. By default is will be stored in `templates/ynh_backup.sh.j2`.
-- `dest_script`: this is the directory where the template file will be stored. By default is will be stored in `/usr/local/bin`. The script is named `ynh_backup.sh`.
+- `ynh_backup.apps` : is mandatory. Enables automatic backup of Yunohost applications by setting the value to `True`.
 
 ## Dependencies
 

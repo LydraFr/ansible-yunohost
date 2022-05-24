@@ -77,13 +77,12 @@ Aucune.
 - name: Install Yunohost on Debian Server
   hosts: all
   become: True
-  collections:
-    - lydra.yunohost
+
   roles:
-    - ynh_setup
-    - ynh_apps
-    - ynh_config
-    - ynh_backup
+    - lydra.yunohost.ynh_setup
+    - lydra.yunohost.ynh_apps
+    - lydra.yunohost.ynh_config
+    - lydra.yunohost.ynh_backup
 ```
 
 ## License

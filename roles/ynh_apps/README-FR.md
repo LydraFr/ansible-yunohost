@@ -81,10 +81,9 @@ Aucune.
 - name: Install Yunohost apps
   hosts: all
   become: True
-  collections:
-    - lydra.yunohost
+
   roles:
-    - ynh_apps
+    - lydra.yunohost.ynh_apps
 ```
 
 ## License

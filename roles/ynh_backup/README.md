@@ -47,10 +47,9 @@ None.
 - name: Configure Yunohost backups
   hosts: all
   become: True
-  collections:
-    - lydra.yunohost
+
   roles:
-    - ynh_backup
+    - lydra.yunohost.ynh_backup
 ```
 
 ## License

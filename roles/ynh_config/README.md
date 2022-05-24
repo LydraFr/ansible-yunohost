@@ -61,10 +61,9 @@ None.
 - name: Configure Yunohost on Debian Server
   hosts: all
   become: True
-  collections:
-    - lydra.yunohost
+
   roles:
-    - ynh_config
+    - lydra.yunohost.ynh_config
 ```
 
 ## License

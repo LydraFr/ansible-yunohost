@@ -8,9 +8,9 @@
 [![GitHub Release Date](https://img.shields.io/github/release-date/LydraFr/ansible-yunohost)](https://github.com/LydraFr/ansible-yunohost)
 [![GitHub Repo stars](https://img.shields.io/github/stars/LydraFr/ansible-yunohost?style=social)](https://github.com/LydraFr/ansible-yunohost)
 
- Collection Ansible - `lydra.yunohost`
+# Collection Ansible - `lydra.yunohost`
 
-[🇬🇧 English version](README.md)
+[🇬🇧 English version](README.md) (seulement sur [GitHub](https://github.com/LydraFr/ansible-yunohost/blob/main/README.md))
 
 Cette collection vise à installer, configurer et sauvegarder [Yunohost](https://yunohost.org/#/).
 Comme il s'agit d'une collection indépendante, elle peut être publiée selon sa propre cadence de publication. De plus, les rôles qu'elle contient sont mis à jour indépendamment.

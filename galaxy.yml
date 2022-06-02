@@ -1,9 +1,9 @@
 namespace: lydra
 name: yunohost
-version: 1.0.0
+version: 1.0.1
 readme: README.md
 authors:
-- Lydra (<suppport@lydra.fr>)
+- Lydra (<support@lydra.fr>)
 description: Yunohost related Roles and Modules
 license_file: 'LICENSE'
 tags:

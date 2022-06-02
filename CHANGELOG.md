@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html),
 and the commits message folow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
 
+## [[1.0.1] - 2022-06-02]
+
+### Added
+
+- Our Ansible collection is now available on Ansible-Galaxy!
+
+### Changed
+
+- This version provides a minor fix to hypertext links in README files.
+
 ## [[1.0.0] - 2022-05-23](https://lab.frogg.it/lydra/yunohost/ansible-yunohost/-/releases/1.0.0)
 
 ### Added

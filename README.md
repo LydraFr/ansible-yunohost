@@ -10,7 +10,7 @@
 
 # Ansible Collection - `lydra.yunohost`
 
-[🇫🇷 French version](README-FR.md)
+[🇫🇷 French version](README-FR.md) (only on [GitHub](https://github.com/LydraFr/ansible-yunohost/blob/main/README-FR.md))
 
 This collection aims at installing, configuring and backing up [Yunohost](https://yunohost.org/#/).
 As this is an independent collection, it can be released on its own release cadence. Moreover, the roles it contains are updated independently.

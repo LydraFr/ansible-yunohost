@@ -30,6 +30,12 @@ ynh_data_dirs:
     link: "/etc/yunohost"
   - path: "{{ ynh_dir }}/var"
     link: "/var/www"
+  - path: "{{ ynh_dir }}/share"
+    link: "/usr/share/yunohost"
+  - path: "{{ ynh_dir }}/backup"
+    link: "/home/yunohost.backup/archives"
+  - path: "{{ ynh_dir }}/home_apps"
+    link: "/home/yunohost.app"
 ynh_data_dirs_enabled: True
 
 # The list of Yunohost domains.

@@ -27,7 +27,13 @@ ynh_data_dirs:
     link: "/etc/yunohost"
   - path: "{{ ynh_dir }}/var"
     link: "/var/www"
-ynh_data_dirs.enabled: True
+  - path: "{{ ynh_dir }}/share"
+    link: "/usr/share/yunohost"
+  - path: "{{ ynh_dir }}/backup"
+    link: "/home/yunohost.backup/archives"
+  - path: "{{ ynh_dir }}/home_apps"
+    link: "/home/yunohost.app"
+ynh_data_dirs_enabled: True
 ```
 
 - `ynh_install_script_url` The url provided downloads the official Yunohost script for installing Yunohost packages. Yunohost is only available on Debian 10.

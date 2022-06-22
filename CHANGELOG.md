@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html),
 and the commits message folow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
+## [[1.0.2] - 2022-06-22]
+
+### Added
+
+- In role ynh_setup:
+  - New symoblic links have been added in `/defaults/main.yml`. You can now define symoblic links for `/usr/share/yunohost`, `/home/yunohost.backup/archives` and `/home/yunohost.app`.
+
+### Changed
+
+- In role ynh_setup:
+  - README.md and README-FR.md have been updated to explain more about the new symoblic links.
 
 ## [[1.0.1] - 2022-06-02]
 

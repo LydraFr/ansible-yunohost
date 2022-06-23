@@ -35,6 +35,15 @@
     - pkg
     - linux
 
+- name: Create backup directory
+  ansible.builtin.file:
+    path: "/home/yunohost.backup/archives"
+    state: directory
+    mode: "0755"
+  tags:
+    - linux
+  when: ynh_data_dirs_enabled
+
 - name: Create data and config subdirs of Yunohost
   ansible.builtin.file:
     path: "{{ item.path }}"
@@ -51,6 +60,7 @@
     src: "{{ item.path }}"
     dest: "{{ item.link }}"
     state: link
+    force: yes
   with_items:
     - "{{ ynh_data_dirs }}"
   tags:

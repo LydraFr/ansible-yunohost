@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html),
 and the commits message folow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
+
+## [[1.0.3] - 2022-06-24]
+
+### Added
+
+- In role ynh_setup:
+  - New symbolic link created by default `/home/yunohost/backup` failed to get created. Added a new task so that the folder is created beforehand and then force the creation of the symbolic link.
+
 ## [[1.0.2] - 2022-06-22]
 
 ### Added

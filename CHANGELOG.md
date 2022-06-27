@@ -6,12 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html),
 and the commits message folow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
 
-## [[1.0.3] - 2022-06-24]
+## [[1.0.4] - 2022-06-27]
 
 ### Added
 
 - In role ynh_setup:
   - New symbolic link created by default `/home/yunohost/backup` failed to get created. Added a new task so that the folder is created beforehand and then force the creation of the symbolic link.
+
+### Fixed
+
+- In role ynh_backup:
+  - A WIP version of a dev branch has been uploaded in version 1.0.3. Therefore, `lydra.yunohost` v1.0.3 is malfunctioning and shouldn't be used. This new version contains the right source files from version 1.0.3.
+
+## [[1.0.3] - 2022-06-24]
+
+> ⚠️ Warning: DO NOT USE THIS VERSION, and go to version 1.0.4. Thanks.
 
 ## [[1.0.2] - 2022-06-22]
 

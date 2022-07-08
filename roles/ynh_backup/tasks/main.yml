@@ -23,3 +23,10 @@
   when: ynh_backup.scheduled
   tags:
     - backup
+
+- name: Use Borg Backup with YunoHost
+  ansible.builtin.include_tasks: borgbackup.yml
+  when: ynh_borg_backup_scheduled
+  tags:
+    - backup
+    - borg

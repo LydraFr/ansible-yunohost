@@ -18,7 +18,7 @@
 #                                                                             #
 #-----------------------------------------------------------------------------#
 
-- name: Create backup folder
+- name: Create backup folder if doesn't already exist
   ansible.builtin.file:
     path: "{{ ynh_backup.directory | default('/home/yunohost.backup/archives') }}"
     state: directory

@@ -1,0 +1,82 @@
+---
+#-----------------------------------------------------------------------------#
+# ansible-yunohost allows to deploy Yunohost using Ansible                    #
+# Copyright 2021-present Lydra https://www.lydra.fr/                          #
+#                                                                             #
+# this program is free software: you can redistribute it and/or modify        #
+# it under the terms of the GNU General Public License as published by        #
+# the Free Software Foundation, either version 3 of the License, or           #
+# (at your option) any later version.                                         #
+#                                                                             #
+# this program is distributed in the hope that it will be useful,             #
+# but WITHOUT ANY WARRANTY; without even the implied warranty of              #
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the                #
+# GNU General Public License for more details.                                #
+#                                                                             #
+# You should have received a copy of the GNU General Public License           #
+# along with this program. If not, see <http://www.gnu.org/licenses/>.        #
+#                                                                             #
+#-----------------------------------------------------------------------------#
+- name: Download BorgBackup role on localhost
+  ansible.builtin.command: ansible-galaxy install m3nu.ansible_role_borgbackup,v0.9.0 -p ~/.ansible/roles
+  delegate_to: localhost
+  become: False
+
+- name: run BorgBackup role
+  ansible.builtin.import_role:
+    name: m3nu.ansible_role_borgbackup
+
+- name: Create backup folder for BorgBackup repository
+  ansible.builtin.file:
+    path: "{{ borg_repository }}"
+    state: directory
+    mode: '0750'
+
+- name: Configure host for Borg Remote repository
+  block:
+    - name: deploy ssh public key for BorgBackup
+      ansible.builtin.copy:
+        src: "{{ borg_ssh_keys_src }}.pub"
+        dest: "{{ borg_ssh_keys_dest }}.pub"
+        owner: "root"
+        group: "root"
+        mode: 0600
+
+    - name: deploy ssh private key for BorgBackup
+      ansible.builtin.copy:
+        src: "{{ borg_ssh_keys_src }}"
+        dest: "{{ borg_ssh_keys_dest }}"
+        owner: "root"
+        group: "root"
+        mode: 0600
+  when: ynh_borg_backup_remote_repo
+
+- name: change SSH command in "/etc/borgmatic/{{ borgmatic_config_name }}"
+  ansible.builtin.lineinfile:
+    path: "/etc/borgmatic/{{ borgmatic_config_name }}"
+    regexp: "# ssh_command: ssh -i ~/.ssh/id_ed25519"
+    line: "{{ ynh_ssh_borg_command }}"
+    state: present
+  when: ynh_ssh_borg_command is defined
+
+
+- name: change archive name in "/etc/borgmatic/{{ borgmatic_config_name }}"
+  ansible.builtin.lineinfile:
+    path: "/etc/borgmatic/{{ borgmatic_config_name }}"
+    regexp: "archive_name_format:"
+    line: "    archive_name_format: {{ borg_archive_name_format }}"
+    state: present
+
+- name: Create borg launch script in /usr/local/bin
+  ansible.builtin.copy:
+    content: |
+      #!/bin/bash
+      . /opt/borgmatic/bin/activate
+      borg "$@"
+    dest: /usr/local/bin/borg
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Initialize a new Borg repository
+  ansible.builtin.command: "{{ borg_init_command }}"

@@ -53,6 +53,7 @@
     - "{{ ynh_data_dirs }}"
   tags:
     - linux
+    - yunohost
   when: ynh_data_dirs_enabled
 
 - name: Create symbolic links for Yunohost subdirs
@@ -65,6 +66,7 @@
     - "{{ ynh_data_dirs }}"
   tags:
     - linux
+    - yunohost
   when: ynh_data_dirs_enabled
 
 - name: Test if Yunohost is already installed
@@ -97,7 +99,6 @@
   when: not ynh_file_install.stat.exists
   tags:
     - yunohost
-    - domains
 
 - name: Create extra domains
   ansible.builtin.include_tasks: domains.yml

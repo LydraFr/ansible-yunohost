@@ -34,15 +34,16 @@ Ces tags sont applicables suivant les rôles.
 
 |tags|commentaires|
 |----|-------|
+|pkg|Tâches d'installation de paquets.|
+|linux|Tâches liées à l'OS Linux.|
 |yunohost|Tâches spécifiques à Yunohost lui-même (installation ou configuration).|
 |users|Tâches spécifiques aux utilisateurs de Yunohost.|
 |domains|Tâches spécifiques aux domaines liés à Yunohost.|
 |apps|Tâches spécifiques aux applications de Yunohost.|
 |update|Tâches liées aux paramètres de mise à jour de Yunohost.|
 |smtp|Tâches liées aux paramètres de relais smtp de Yunohost.|
-|backup|Tâches liées aux sauvegardes de Yunohost.|
-|pkg|Tâches d'installation de paquets.|
-|linux|Tâches liées à l'OS Linux.|
+|backup|Tâches liées aux sauvegardes de Yunohost en local.|
+|borg|Tâches liées aux sauvegardes avec BorgBackup.|
 
 ## License
 

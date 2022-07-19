@@ -34,15 +34,16 @@ These tags are applicable to roles.
 
 |tags|comment|
 |----|-------|
+|pkg|Tasks that install packages.|
+|linux|Tasks related to Linux.|
 |yunohost|Tasks specific to Yunohost itself (setup or configuration).|
 |users|Tasks specific to users in Yunohost.|
 |domains|Tasks specific to domains linked to Yunohost.|
 |apps|Tasks specific to Yunohost apps.|
 |update|Tasks related to Yunohost update settings.|
 |smtp|Tasks related to Yunohost smtp relay settings.|
-|backup|Tasks related to Yunohost backups.|
-|pkg|Tasks that install packages.|
-|linux|Tasks related to Linux OS.|
+|backup|Tasks related to local Yunohost backups.|
+|borg|Tasks related to backups with BorgBackup.|
 
 ## License
 

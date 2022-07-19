@@ -21,6 +21,4 @@
 - name: Install Yunohost apps
   ansible.builtin.include_tasks: apps.yml
   when: ynh_apps
-  tags:
-    - yunohost
-    - apps
+  tags: apps

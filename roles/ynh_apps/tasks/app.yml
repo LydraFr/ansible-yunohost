@@ -24,8 +24,7 @@
      --label "{{ ynh_app.label }}" \
      --args "{% for key, value in ynh_app.args.items() %}{{ key }}={{ value }}{% if not loop.last %}&{% endif %}{% endfor %}"
   changed_when: False
-  tags:
-    - apps
+  tags: apps
 
 # Post-installation part
 - name: Create post-install template
@@ -37,8 +36,7 @@
     mode: "{{ (item.type == 'script') | ternary('740', '660') }}"
   loop: "{{ ynh_app.post_install|default([]) }}"
   when: ynh_app.post_install
-  tags:
-    - apps
+  tags: apps
 
 - name: Launch post-install script
   ansible.builtin.command: "{{ ynh_app_post_install.dest }}"
@@ -48,8 +46,7 @@
   loop_control:
     loop_var: ynh_app_post_install
   when: ynh_app_post_install.type == "script"
-  tags:
-    - apps
+  tags: apps
 
 - name: Remove script after execution
   ansible.builtin.file:
@@ -59,5 +56,4 @@
   loop_control:
     loop_var: ynh_app_post_install
   when: ynh_app_post_install.type == "script"
-  tags:
-    - apps
+  tags: apps

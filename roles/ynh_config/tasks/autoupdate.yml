@@ -28,7 +28,6 @@
   tags:
     - yunohost
     - update
-    - cron
 
 - name: Creates cron task under /etc/cron.d to auto-update Yunohost
   ansible.builtin.cron:
@@ -41,4 +40,3 @@
   tags:
     - yunohost
     - update
-    - cron

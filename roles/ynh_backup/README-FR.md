@@ -68,7 +68,7 @@ ynh_ssh_borg_command: "ssh_command: ssh -p 7410 -o StrictHostKeychecking=no -i {
 - `borgmatic_config_name` : **Optionnel**, nom du fichier de configuration Borgmatic.
 - `borgmatic_cron_name` : **Optionnel**, nom du fichier de tâche cron.
 - `borg_retention_policy.keep_[hourly|daily|weekly|monthly]` : Permet de régler finement le nombre d'archives récentes que le dépôt doit garder.
-- `borg_ssh_keys_src` : Chemin où se trouve le couple clé publique / privée SSH sur l'hôte Ansible.
+- `borg_ssh_keys_src` : Chemin où se trouve le couple clé publique / privée SSH sur l'hôte Ansible. Pensez à utiliser [Ansible Vault](https://docs.ansible.com/ansible/latest/user_guide/vault.html) pour protéger vos clés SSH.
 - `borg_ssh_keys_dest` : Chemin où va être copié la paire de clés SSH sur le serveur YunoHost.
 - `ynh_ssh_borg_command`: **Optionnel**, commande SSH personnalisée lors de l'utilisation de Borg sur un dépôt distant.
 

@@ -25,6 +25,12 @@
   - backup
   - borg
 
+- name: Gather facts for BorgBackup role
+  ansible.builtin.setup:
+  tags:
+    - borg
+    - backup
+
 - name: run BorgBackup role
   ansible.builtin.import_role:
     name: m3nu.ansible_role_borgbackup
@@ -56,7 +62,7 @@
 
     - name: deploy ssh private key for BorgBackup
       ansible.builtin.copy:
-        src: "{{ borg_ssh_keys_src }}"
+        src: "{{ borg_ssh_keys_src }}.vault"
         dest: "{{ borg_ssh_keys_dest }}"
         owner: "root"
         group: "root"

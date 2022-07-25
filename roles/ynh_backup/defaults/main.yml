@@ -29,6 +29,8 @@ ynh_backup:
   # system: True
   # apps: True
 
+number_days_to_keep: "2"
+
 # Variables for YunoHost BorgBackup
 ynh_borg_backup_scheduled: False
 borg_source_directories:

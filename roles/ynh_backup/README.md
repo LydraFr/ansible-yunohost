@@ -39,6 +39,7 @@ ynh_backup:
 - `ynh_backup.scheduled_[hour|minute|weekday|month]`: modifies the scheduling of the cron task. By default, it will run every day of the year at 1am. For more information about cron time settings, this tool can be useful: <https://crontab.guru/>.
 - `ynh_backup.system`: **mandatory**. Enables automatic backup of the YunoHost system by setting the value to `True`.
 - `ynh_backup.apps`: **mandatory**. Enables automatic backup of YunoHost applications by setting the value to `True`.
+- `number_days_to_keep` : **mandatory**. Determines the number of days to keep for the purging system.
 
 ### remote backups with YunoHost BorgBackup
 

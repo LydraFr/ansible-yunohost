@@ -1,8 +1,33 @@
-#!/bin/sh
+#!/bin/bash
+today="$(date +%Y%m%d)"
+number_to_keep="{{ number_days_to_keep }}"
+old_backup_list="$(yunohost backup list --output-as plain | head -n -"$number_to_keep")" # Afficher toutes les lignes de sauvegardes à part les deux dernières.
 
-yunohost backup create {% if ynh_backup.system %}--system{% endif %}{% if ynh_backup.apps %} --apps{% endif %}{% if ynh_backup.directory %} --output-directory {{ ynh_backup.directory }}/backup_$(date +%Y%m%d_%H%M) {% endif %}
+_good() {
+    echo "SUCCESS: ${1}" && exit 0
+}
 
-{% if ynh_backup.system is false and ynh_backup.apps is false %}
-    echo "Read the readme to know more about vars ynh_backup.system and ynh_backup.apps"
-    exit 1
-{% endif %}
+_fail() {
+    echo "ERROR: ${1}" && exit 1
+}
+
+_create_ynh_backup() {
+  echo "Backing up $today YunoHost data now."
+  yunohost backup create {% if ynh_backup.system %}--system{% endif %}{% if ynh_backup.apps %} --apps{% endif %}{% if ynh_backup.directory %} --output-directory {{ ynh_backup.directory }}/backup_"$today" {% endif %} || _fail "can't create a backup"
+
+}
+
+_prune_old_backup() {
+  if [ -n "$old_backup_list" ]; then
+    for backup in $old_backup_list; do
+      echo "Backup $backup is 2 days old or more. Purging it now."
+      yunohost backup delete "$backup"
+    done
+    _good "Purging of old backups completed."
+  else
+    _good "There is no old backup to be purged."
+  fi
+}
+
+_create_ynh_backup
+_prune_old_backup

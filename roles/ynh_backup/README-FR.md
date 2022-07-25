@@ -32,6 +32,8 @@ ynh_backup:
   apps: True
   src_script: "templates/ynh_backup.sh.j2"
   dest_script: "/usr/bin"
+
+number_days_to_keep: "2"
 ```
 
 - `ynh_backup.scheduled` : active la fonctionnalité de sauvegarde des applications YunoHost, mettez la valeur à `True`.
@@ -39,6 +41,7 @@ ynh_backup:
 - `ynh_backup.scheduled_[hour|minute|weekday|month]`: modifie la planification de la tâche cron. Par défaut, elle se déclenchera tous les jours de l'année à 1 heure du matin. Pour plus d'informations concernant les réglages horaires cron, cet outil peut être utile : <https://crontab.guru/>.
 - `ynh_backup.system` : **obligatoire**. Activez la sauvegarde du système YunoHost en mettant la valeur à `True`.
 - `ynh_backup.apps` : **obligatoire**. Activez la sauvegarde des applications YunoHost en mettant la valeur à `True`.
+- `number_days_to_keep` : **obligatoire**. Détermine le nombre de jours à garder pour le système de purge.
 
 ### Sauvegardes distantes avec BorgBackup
 

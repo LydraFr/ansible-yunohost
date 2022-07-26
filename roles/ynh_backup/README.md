@@ -34,12 +34,13 @@ ynh_backup:
   dest_script: "/usr/bin"
 ```
 
-- `ynh_backup.scheduled`: to enable the YunoHost applications backup feature, set the value to `True`.
-- `ynh_backup.directory`: the default backup folder is `/home/yunohost.backup/archives` however you can choose to save the backups in another folder with this variable. In this case, in order to be able to restore the backups from the web interface, YunoHost automatically creates a symbolic link from the created archive to its default folder.
-- `ynh_backup.scheduled_[hour|minute|weekday|month]`: modifies the scheduling of the cron task. By default, it will run every day of the year at 1am. For more information about cron time settings, this tool can be useful: <https://crontab.guru/>.
-- `ynh_backup.system`: **mandatory**. Enables automatic backup of the YunoHost system by setting the value to `True`.
-- `ynh_backup.apps`: **mandatory**. Enables automatic backup of YunoHost applications by setting the value to `True`.
-- `number_days_to_keep` : **mandatory**. Determines the number of days to keep for the purging system.
+- `ynh_backup.scheduled`: Enable the YunoHost applications backup feature by setting the value to `True`.
+- `ynh_backup.directory`: the default backup folder is `/home/yunohost.backup/archives`. You can choose to save the backups in another folder with this variable. In this case, in order to be able to restore the backups from the web interface, YunoHost automatically creates a symbolic link from the created archive to its default folder.
+- `ynh_backup.scheduled_[hour|minute|weekday|month]`: modifies the scheduling of the cron task. By default, it will run every day of the year at 3am. For more information about cron time settings, this tool can be useful: <https://crontab.guru/>.
+- `ynh_backup.system`: Disable YunoHost system backup by setting the value to `False`, the default value is `True`.
+- `ynh_backup.apps`: Disable backup of YunoHost applications by setting the value to `False`, the default is `True`.
+- `ynh_backup.number_days_to_keep` : Determines the number of days to keep for the purging system, the default is 2.
+- ⚠️ Beware, once you enable the local backup feature `ynh_backup.scheduled`, you cannot disable system **and** application backups. If you set `ynh_backup.system` **and** `ynh_backup.apps` to `False`, the role will fail.
 
 ### remote backups with YunoHost BorgBackup
 

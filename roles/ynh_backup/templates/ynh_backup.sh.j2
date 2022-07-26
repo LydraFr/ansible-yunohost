@@ -1,7 +1,7 @@
 #!/bin/bash
 today="$(date +%Y%m%d)"
-number_to_keep="{{ number_days_to_keep }}"
-old_backup_list="$(yunohost backup list --output-as plain | head -n -"$number_to_keep")" # Afficher toutes les lignes de sauvegardes à part les deux dernières.
+number_to_keep="{{ ynh_backup.number_days_to_keep | default("2") }}"
+old_backup_list="$(yunohost backup list --output-as plain | head -n -"$number_to_keep")"
 
 _good() {
     echo "SUCCESS: ${1}" && exit 0
@@ -13,7 +13,7 @@ _fail() {
 
 _create_ynh_backup() {
   echo "Backing up $today YunoHost data now."
-  yunohost backup create {% if ynh_backup.system %}--system{% endif %}{% if ynh_backup.apps %} --apps{% endif %}{% if ynh_backup.directory %} --output-directory {{ ynh_backup.directory }}/backup_"$today" {% endif %} || _fail "can't create a backup"
+  yunohost backup create {% if ynh_backup.system | default(True) %}--system{% endif %}{% if ynh_backup.apps | default(True) %} --apps{% endif %}{% if ynh_backup.directory is defined %} --output-directory {{ ynh_backup.directory }}/backup_"$today" {% endif %} || _fail "can't create a backup"
 
 }
 

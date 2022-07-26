@@ -17,12 +17,18 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.        #
 #                                                                             #
 #-----------------------------------------------------------------------------#
+- name: Fail if variables are not used correctly
+  ansible.builtin.fail:
+    msg: You need to define variable ynh_backup.apps and / or ynh_backup.system to True
+  when: ynh_backup.apps | default(True) is false and ynh_backup.system | default(True) is false
+  tags: backup
 
 - name: Create backup folder if doesn't already exist
   ansible.builtin.file:
-    path: "{{ ynh_backup.directory | default('/home/yunohost.backup/archives') }}"
+    path: "{{ ynh_backup.directory }}"
     state: directory
     mode: '0750'
+  when: ynh_backup.directory is defined
   tags: backup
 
 - name: Create backup script
@@ -36,7 +42,7 @@
 
 - name: Create cron task to schedule YNH backup script
   ansible.builtin.cron:
-    name: "auto-backup to {{ ynh_backup.directory | default('/home/yunohost.backup/archives') }}"
+    name: "auto-backup to {{ ynh_backup.directory | default(_ynh_backup_directory) }}"
     month: "{{ ynh_backup.scheduled_month | default('*') }}"
     weekday: "{{ ynh_backup.scheduled_weekday | default('*') }}"
     hour: "{{ ynh_backup.scheduled_hour | default('1') }}"

@@ -21,15 +21,6 @@
 # Variables for local YunoHost backups
 ynh_backup:
   scheduled: False
-  # directory: "/data/backup"
-  # scheduled_hour: 3
-  # scheduled_minute: "0"
-  # scheduled_weekday: "*"
-  # scheduled_month: "*"
-  # system: True
-  # apps: True
-
-number_days_to_keep: "2"
 
 # Variables for YunoHost BorgBackup
 ynh_borg_backup_scheduled: False

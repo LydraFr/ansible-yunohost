@@ -30,18 +30,17 @@ ynh_backup:
   scheduled_month: "*"
   system: True
   apps: True
-  src_script: "templates/ynh_backup.sh.j2"
-  dest_script: "/usr/bin"
+  number_days_to_keep: "2"
 
-number_days_to_keep: "2"
 ```
 
-- `ynh_backup.scheduled` : active la fonctionnalité de sauvegarde des applications YunoHost, mettez la valeur à `True`.
-- `ynh_backup.directory` : le dossier de sauvegarde par défaut est `/home/yunohost.backup/archives` cependant vous pouvez tout à fait choisir de sauvegarder les backups dans un autre dossier grâce à cette variable. Dans ce cas, de manière à pouvoir restaurer les backups depuis l'interface web, YunoHost créé automatiquement un lien symbolique de l'archive créée vers son dossier par défaut.
-- `ynh_backup.scheduled_[hour|minute|weekday|month]`: modifie la planification de la tâche cron. Par défaut, elle se déclenchera tous les jours de l'année à 1 heure du matin. Pour plus d'informations concernant les réglages horaires cron, cet outil peut être utile : <https://crontab.guru/>.
-- `ynh_backup.system` : **obligatoire**. Activez la sauvegarde du système YunoHost en mettant la valeur à `True`.
-- `ynh_backup.apps` : **obligatoire**. Activez la sauvegarde des applications YunoHost en mettant la valeur à `True`.
-- `number_days_to_keep` : **obligatoire**. Détermine le nombre de jours à garder pour le système de purge.
+- `ynh_backup.scheduled` : active la fonctionnalité de sauvegarde des applications YunoHost en mettant la valeur à `True`.
+- `ynh_backup.directory` : le dossier de sauvegarde par défaut est `/home/yunohost.backup/archives`. Vous pouvez choisir de sauvegarder les backups dans un autre dossier grâce à cette variable. Dans ce cas, de manière à pouvoir restaurer les backups depuis l'interface web, YunoHost créé automatiquement un lien symbolique de l'archive créée vers son dossier par défaut.
+- `ynh_backup.scheduled_[hour|minute|weekday|month]`: modifie la planification de la tâche cron. Par défaut, elle se déclenchera tous les jours de l'année à 3 heure du matin. Pour plus d'informations concernant les réglages horaires cron, cet outil peut être utile : <https://crontab.guru/>.
+- `ynh_backup.system` : Désactivez la sauvegarde du système YunoHost en mettant la valeur à `False`, la valeur par défaut est à `True`.
+- `ynh_backup.apps` : Désactivez la sauvegarde des applications YunoHost en mettant la valeur à `False`, la valeur par défaut est à `True`.
+- `ynh_backup.number_days_to_keep` : Détermine le nombre de jours à garder pour le système de purge, la valeur par défaut est 2.
+- ⚠️ Attention, à partir du moment où vous activez la fonctionnalité de sauvegarde locale `ynh_backup.scheduled`, vous ne pouvez pas désactiver les sauvegardes système **et** applications. Si vous mettez `ynh_backup.system` **et** `ynh_backup.apps` à `False`, le rôle tombera en erreur.
 
 ### Sauvegardes distantes avec BorgBackup
 

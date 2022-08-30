@@ -17,21 +17,23 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.        #
 #                                                                             #
 #-----------------------------------------------------------------------------#
-- name: Enable Yunohost local backups
-  ansible.builtin.include_tasks: backup.yml
-  when: ynh_backup.scheduled
-  tags: backup
-
-- name: Use BorgBackup with YunoHost
-  ansible.builtin.include_tasks: borgbackup.yml
-  when: ynh_borg_backup_scheduled
+- name: Download Restic role on localhost
+  ansible.builtin.command: "ansible-galaxy install do1jlr.restic,{{ do1jlr_restic_version }} -p {{ _ansible_role_directory }}"
+  delegate_to: localhost
+  become:      False
   tags:
     - backup
-    - borg
+    - restic
 
-- name: Use Restic with YunoHost
-  ansible.builtin.include_tasks: restic.yml
-  when: ynh_restic_backup_scheduled
+- name: Gather facts for Restic role
+  ansible.builtin.setup:
+  tags:
+    - backup
+    - restic
+
+- name: Run Restic role
+  ansible.builtin.import_role:
+    name: do1jlr.restic
   tags:
     - backup
     - restic

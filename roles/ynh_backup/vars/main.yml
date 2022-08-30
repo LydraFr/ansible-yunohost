@@ -22,3 +22,4 @@
 ynh_backup_src_script: "templates/ynh_backup.sh.j2"
 ynh_backup_dest_script: "/usr/local/bin/ynh_backup.sh"
 _ynh_backup_directory: "/home/yunohost.backup/archives"
+_ansible_role_directory: "~/.ansible/roles"

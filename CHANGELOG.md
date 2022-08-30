@@ -6,35 +6,56 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html),
 and the commits message folow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
 
-## [[1.0.4] - 2022-06-27]
+## [[1.1.0] - 2022-08-30](https://lab.frogg.it/lydra/yunohost/ansible-yunohost/-/releases/1.1.0)
 
 ### Added
 
-- In role ynh_setup:
+- In role `ynh_backup`:
+  - You now have the possibility to use BorgBackup with an [extra Ansible role](https://github.com/borgbase/ansible-role-borgbackup) as well as [Restic](https://github.com/roles-ansible/ansible_role_restic). These are built-in into this role, which means that once configured correctly, Ansible will download the chosen roles and will trigger their tasks.
+
+### Changed
+
+- In roles:
+  - Changed various tasks-related tags.
+
+- In role `ynh_backup`:
+  - The `ynh_backup.sh` script now has a pruning function. By default, all local backups older than two days old are automatically deleted when a new backup is being created by the cron task.
+  - Improved README for the local backups.
+
+### Fixed
+
+- In role `ynh_backup`:
+  - Only one of `ynh_backup.system` or `ynh_backup.apps` is required. If the user puts var `ynh_backup.system` and `ynh_backup.apps` to False the role throws an error.
+
+## [[1.0.4] - 2022-06-27](https://lab.frogg.it/lydra/yunohost/ansible-yunohost/-/releases/1.0.4)
+
+### Added
+
+- In role `ynh_setup`:
   - New symbolic link created by default `/home/yunohost/backup` failed to get created. Added a new task so that the folder is created beforehand and then force the creation of the symbolic link.
 
 ### Fixed
 
-- In role ynh_backup:
+- In role `ynh_backup`:
   - A WIP version of a dev branch has been uploaded in version 1.0.3. Therefore, `lydra.yunohost` v1.0.3 is malfunctioning and shouldn't be used. This new version contains the right source files from version 1.0.3.
 
 ## [[1.0.3] - 2022-06-24]
 
 > ⚠️ Warning: DO NOT USE THIS VERSION, and go to version 1.0.4. Thanks.
 
-## [[1.0.2] - 2022-06-22]
+## [[1.0.2] - 2022-06-22](https://lab.frogg.it/lydra/yunohost/ansible-yunohost/-/releases/1.0.2)
 
 ### Added
 
-- In role ynh_setup:
+- In role `ynh_setup`:
   - New symbolic links have been added in `/defaults/main.yml`. You can now define symbolic links for `/usr/share/yunohost`, `/home/yunohost.backup/archives` and `/home/yunohost.app`.
 
 ### Changed
 
-- In role ynh_setup:
+- In role `ynh_setup`:
   - README.md and README-FR.md have been updated to explain more about the new symbolic links.
 
-## [[1.0.1] - 2022-06-02]
+## [[1.0.1] - 2022-06-02](https://lab.frogg.it/lydra/yunohost/ansible-yunohost/-/releases/1.0.1)
 
 ### Added
 
@@ -48,8 +69,8 @@ and the commits message folow the [Conventional Commits](https://www.conventiona
 
 ### Added
 
-- As we grew in terms of added features we have decided to transform this role into a collection.
-- You can now define symoblic links for `/etc/yunohost/` and `/var/www/`.
+- As we grew in terms of added features, we have decided to transform this role into a collection.
+- You can now define symbolic links for `/etc/yunohost/` and `/var/www/`.
 - You can now create backups for Yunohost core and apps using `ynh_backup` role.
 
 ### Changed

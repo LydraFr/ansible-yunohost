@@ -11,10 +11,11 @@ YunoHost doit déjà être installé sur votre serveur.
 ## Variables du rôle
 
 Les variables par défaut sont disponibles dans `default/main.yml` cependant il est possible de les surcharger selon vos besoins.
-Nous avons intégré deux systèmes de sauvegardes différents à ce rôle YunoHost :
+Nous avons intégré trois systèmes de sauvegardes différents à ce rôle YunoHost :
 
 - sauvegardes natives YunoHost en local
-- sauvegardes à distance avec un [depot BorgBackup](https://borgbackup.readthedocs.io/en/stable/)
+- sauvegardes à distance avec un [dépôt BorgBackup](https://borgbackup.readthedocs.io/en/stable/)
+- sauvegardes à distance avec un [dépôt Restic](https://restic.readthedocs.io/en/stable/)
 
 ### Sauvegardes natives YunoHost locales
 
@@ -22,16 +23,15 @@ Nous avons intégré deux systèmes de sauvegardes différents à ce rôle YunoH
 
 ```yml
 ynh_backup:
-  scheduled: True
-  directory: "/data/backup"
-  scheduled_hour: "*"
-  scheduled_minute: "*/30"
+  scheduled:         True
+  directory:         "/data/backup/local_ynh_backups"
+  scheduled_hour:    "*"
+  scheduled_minute:  "*/30"
   scheduled_weekday: "*"
-  scheduled_month: "*"
-  system: True
-  apps: True
+  scheduled_month:   "*"
+  system:            True
+  apps:              True
   number_days_to_keep: "2"
-
 ```
 
 - `ynh_backup.scheduled` : active la fonctionnalité de sauvegarde des applications YunoHost en mettant la valeur à `True`.
@@ -44,28 +44,27 @@ ynh_backup:
 
 ### Sauvegardes distantes avec BorgBackup
 
-- Les sauvegardes avec [BorgBackup](https://borgbackup.readthedocs.io/en/stable/) et [Borgmatic](https://github.com/witten/borgmatic) : Grâce au rôle Ansible `m3nu.ansible_role_borgbackup` nous pouvons automatiser le processus d'installation et de configuration de BorgBackup sur un serveur YunoHost. Les sauvegardes Borg sont accessibles sur un dépôt Borg local ou distant. Plus d'info sur ce rôle [ici](https://github.com/borgbase/ansible-role-borgbackup)
+- Les sauvegardes avec [BorgBackup](https://borgbackup.readthedocs.io/en/stable/) et [Borgmatic](https://github.com/witten/borgmatic) : Grâce au rôle Ansible `m3nu.ansible_role_borgbackup`, nous pouvons automatiser le processus d'installation et de configuration de BorgBackup sur un serveur YunoHost. Les sauvegardes Borg sont accessibles sur un dépôt Borg local ou distant. Plus d'info sur ce rôle [ici](https://github.com/borgbase/ansible-role-borgbackup)
 
 ```yml
-ynh_borg_backup_scheduled: True
-borg_source_directories:
-  - "/data/yunohost"
-borg_repository: "/data/backup/live"
+ynh_borg_backup_scheduled:  True
+borg_source_directories:    "{{ ynh_backup.directory }}"
+borg_repository:            "/data/backup/borg_repository"
 borg_encryption_passphrase: "PLEASECHANGEME"
-borgmatic_config_name: "borgmatic_ynh_config"
-borgmatic_cron_name: "borgmatic_ynh_cron"
+borgmatic_config_name:      "borgmatic_ynh_config"
+borgmatic_cron_name:        "borgmatic_ynh_cron"
 borg_retention_policy:
   keep_daily: "4"
 ynh_borg_backup_remote_repo: True
-borg_ssh_keys_src: "files/prd/ssh_keys/ynh_ed25519.vault"
-borg_ssh_keys_dest: "/home/debian/.ssh/ynh_ed25519"
-ynh_ssh_borg_command: "ssh_command: ssh -p 7410 -o StrictHostKeychecking=no -i {{ borg_ssh_keys_dest }}"
+borg_ssh_keys_src:          "files/prd/ssh_keys/ynh_ed25519.vault"
+borg_ssh_keys_dest:         "/home/debian/.ssh/ynh_ed25519"
+ynh_ssh_borg_command:       "ssh_command: ssh -p 7410 -o StrictHostKeychecking=no -i {{ borg_ssh_keys_dest }}"
 ```
 
 - `ynh_borg_backup_scheduled` : Active / désactive la fonctionnalité de sauvegarde avec BorgBackup.
 - `ynh_borg_backup_remote_repo` : Active / désactive la fonctionnalité de sauvegarde sur un dépôt distant BorgBackup (tâches liées à la mise en place des clés SSH). Si vous activez cette fonctionnalité, vous aurez besoin d'utiliser les variables `borg_ssh_keys_src` et `borg_ssh_keys_dest`.
-- `borg_source_directories` : Liste des dossiers source à sauvegarder. Par défaut, il s'agit du dossier contenant toutes les données YunoHost (configuration, applications).
-- `borg_repository` : Chemin complet vers le dépôt Borg. Possibilité de donner une liste de dépôts pour sauvegarder les données dans plusieurs endroits. Par défaut, il s'agit du dépôt `/data/backup/live`.
+- `borg_source_directories` : Liste des dossiers source à sauvegarder. Par défaut, il s'agit du dossier qui contient les sauvegardes faites par YunoHost.
+- `borg_repository` : Chemin complet vers le dépôt Borg. Possibilité de donner une liste de dépôts pour sauvegarder les données dans plusieurs endroits.
 - `borg_encryption_passphrase` : **Obligatoire**, mot de passe à utiliser pour la clé de chiffrement du dépôt Borg.
 - `borgmatic_config_name` : **Optionnel**, nom du fichier de configuration Borgmatic.
 - `borgmatic_cron_name` : **Optionnel**, nom du fichier de tâche cron.
@@ -76,9 +75,64 @@ ynh_ssh_borg_command: "ssh_command: ssh -p 7410 -o StrictHostKeychecking=no -i {
 
 N'hésitez pas à regarder les variables disponibles dans le [rôle](https://github.com/borgbase/ansible-role-borgbackup).
 
+### Sauvegardes distantes avec Restic
+
+- Les sauvegardes avec [Restic](https://restic.net/) : Grâce au rôle Ansible `do1jlr.restic`, nous pouvons automatiser le processus d'installation et de configuration de Restic sur un serveur YunoHost. Les sauvegardes Restic peuvent être effectuées sur un dépôt Restic en local ou à distance (dépôt compatible stockage objet S3). Plus d'info sur ce rôle [ici](https://github.com/roles-ansible/ansible_role_restic).
+
+⚠️ Attention, pour pouvoir utiliser le rôle Ansible `do1jlr.restic`, vous devez avoir les [paquets suivants](https://github.com/roles-ansible/ansible_role_restic#requirements) installés sur la machine qui exécute Ansible :
+
+- `bzip2` (binaire disponible sur la plupart des systèmes Linux).
+- `jmespath` (paquet python, installable avec pip).
+
+```yml
+ynh_restic_backup_scheduled: True
+restic_create_schedule:      True
+restic_keep_time:            "0y2m0d0h"
+
+restic_repos:
+  s3_ynh_restic_repo:
+    location:               "s3:s3.fr-par.scw.cloud/dummy_bucket_name"
+    password:               "dummy_restic_repo_password"
+    aws_access_key:         "dummy_access_key"
+    aws_secret_access_key:  "dummy_secret_access_key"
+    aws_default_region:     "fr-par"
+    init:                   True
+
+restic_backups:
+  YunoHost_remote:
+    name:                   "remote_ynh_restic"
+    repo:                   "s3_ynh_restic_repo"
+    src:                    "{{ ynh_backup.directory }}"
+    tags:
+      - yunohost
+      - remote
+    keep_within:            "{{ restic_keep_time }}"
+    scheduled: True
+    schedule_hour: 1
+    schedule_minute: 0
+```
+
+- `ynh_restic_backup_scheduled` : Active / désactive la fonctionnalité de sauvegarde avec Restic.
+- `restic_keep_time` : Permet de régler finement la période de temps durant laquelle les snapshots doivent être conservés. la valeur par défaut est de 1 mois `0y1m0d0h`.
+- `restic_repos`: Restic conserve les données dans des dépôts. Vous devez spécifier au moins un dépôt pour utiliser ce rôle. Un dépôt doit comporter les variables suivantes :
+  - `location` : **Obligatoire**, le chemin vers le dépôt. Ça peut être un chemin local (par exemple `/data/backup`) ou un chemin vers un bucket S3 (voir l'exemple ci-dessus).
+  - `password`: **Obligatoire**, mot de passe à utiliser pour le dépôt Restic.
+  - `init` : Décrit si le dépôt doit être initialisé ou pas. Utilisez `false` si vous utilisez un dépôt Restic déjà initialisé.
+  - ⚠️ Attention, s'il s'agit d'un dépôt stockage objet S3, vous devez fournir des variables supplémentaires pour que Restic puisse s'authentifier et accéder au fournisseur cloud (voir l'exemple ci-dessus).
+- `restic_backups`: Un backup précise un répertoire ou un fichier à sauvegarder. Il comporte les variables suivantes :
+  - `name` : **Obligatoire**, ce nom de cette sauvegarde. Il doit être unique et est utilisé avec le __pruning__  et la planification.
+  - `repo` : **Obligatoire**, le nom du dépôt où sauvegarder les snapshots. Ce dépôt devra avoir été déclaré au préalable (voir plus haut pour les variables à renseigner).
+  - `src` : **Obligatoire**, le répertoire ou le fichier à sauvegarder.
+  - `tags` : **Optionnel**, liste de tags pour ajouter des informations.
+  - `keep-within` : Peut être utilisé en relation avec la variable `restic_keep_time` (dans ce cas, gardez la variable telle quelle) ou alors vous pouvez choisir une période de rétention pour chaque sauvegarde.
+  - `scheduled` : Utilisez `true` si vous souhaitez mettre en place une tâche cron pour le déclenchement d'une sauvegarde à intervalle régulier. En corrélation avec `restic_create_schedule: true` (les deux doivent être à `true` pour que la tâche soit créé).
+  - `schedule_[minute|hour|weekday|month]` : Permet de régler finement la planification du déclenchement de la tâche cron.
+
+N'hésitez pas à regarder les variables disponibles dans le [rôle](https://github.com/roles-ansible/ansible_role_restic).
+
 ## Dépendances
 
-Le rôle `m3nu.ansible_role_borgbackup` sera installé sur la machine exécutant Ansible pour que les tâches liées à Borg fonctionnent. Un fichier `requirements.yml` est à la racine du rôle et va télécharger le rôle (par défaut vers `~/.ansible/roles`).
+Le rôle `m3nu.ansible_role_borgbackup` et `do1jlr.restic` seront installés sur la machine exécutant Ansible pour que les tâches liées à Borg et Restic fonctionnent.
 
 ## Exemple de Playbook
 

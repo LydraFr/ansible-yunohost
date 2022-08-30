@@ -25,19 +25,19 @@
 
 - name: Create backup folder if doesn't already exist
   ansible.builtin.file:
-    path: "{{ ynh_backup.directory }}"
+    path:  "{{ ynh_backup.directory }}"
     state: directory
-    mode: '0750'
+    mode:  '0750'
   when: ynh_backup.directory is defined
   tags: backup
 
 - name: Create backup script
   ansible.builtin.template:
-    src: "{{ ynh_backup_src_script }}"
-    dest: "{{ ynh_backup_dest_script }}"
+    src:   "{{ ynh_backup_src_script }}"
+    dest:  "{{ ynh_backup_dest_script }}"
     owner: root
     group: root
-    mode: '0740'
+    mode:  '0740'
   tags: backup
 
 - name: Create cron task to schedule YNH backup script

@@ -18,12 +18,12 @@
 #                                                                             #
 #-----------------------------------------------------------------------------#
 - name: Download BorgBackup role on localhost
-  ansible.builtin.command: ansible-galaxy install m3nu.ansible_role_borgbackup,v0.9.0 -p ~/.ansible/roles
+  ansible.builtin.command: ansible-galaxy install m3nu.ansible_role_borgbackup,v0.9.0 -p "{{ _ansible_role_directory }}"
   delegate_to: localhost
   become: False
   tags:
-  - backup
-  - borg
+    - backup
+    - borg
 
 - name: Gather facts for BorgBackup role
   ansible.builtin.setup:
@@ -35,8 +35,8 @@
   ansible.builtin.import_role:
     name: m3nu.ansible_role_borgbackup
   tags:
-  - backup
-  - borg
+    - backup
+    - borg
 
 - name: Create backup folder for BorgBackup repository
   ansible.builtin.file:
@@ -44,29 +44,29 @@
     state: directory
     mode: '0750'
   tags:
-  - backup
-  - borg
+    - backup
+    - borg
 
 - name: Configure host for Borg Remote repository
   tags:
-  - backup
-  - borg
+    - backup
+    - borg
   block:
     - name: deploy ssh public key for BorgBackup
       ansible.builtin.copy:
-        src: "{{ borg_ssh_keys_src }}.pub"
-        dest: "{{ borg_ssh_keys_dest }}.pub"
+        src:   "{{ borg_ssh_keys_src }}.pub"
+        dest:  "{{ borg_ssh_keys_dest }}.pub"
         owner: "root"
         group: "root"
-        mode: 0600
+        mode:  0600
 
     - name: deploy ssh private key for BorgBackup
       ansible.builtin.copy:
-        src: "{{ borg_ssh_keys_src }}.vault"
-        dest: "{{ borg_ssh_keys_dest }}"
+        src:   "{{ borg_ssh_keys_src }}.vault"
+        dest:  "{{ borg_ssh_keys_dest }}"
         owner: "root"
         group: "root"
-        mode: 0600
+        mode:  0600
   when: ynh_borg_backup_remote_repo
 
 - name: change SSH command in "/etc/borgmatic/{{ borgmatic_config_name }}"
@@ -77,19 +77,19 @@
     state: present
   when: ynh_ssh_borg_command is defined
   tags:
-  - backup
-  - borg
+    - backup
+    - borg
 
 
 - name: change archive name in "/etc/borgmatic/{{ borgmatic_config_name }}"
   ansible.builtin.lineinfile:
-    path: "/etc/borgmatic/{{ borgmatic_config_name }}"
+    path:   "/etc/borgmatic/{{ borgmatic_config_name }}"
     regexp: "archive_name_format:"
     line: "    archive_name_format: {{ borg_archive_name_format }}"
     state: present
   tags:
-  - backup
-  - borg
+    - backup
+    - borg
 
 - name: Create borg launch script in /usr/local/bin
   ansible.builtin.copy:
@@ -97,16 +97,16 @@
       #!/bin/bash
       . /opt/borgmatic/bin/activate
       borg "$@"
-    dest: /usr/local/bin/borg
+    dest:  /usr/local/bin/borg
     owner: root
     group: root
     mode: "0755"
   tags:
-  - backup
-  - borg
+    - backup
+    - borg
 
 - name: Initialize a new Borg repository
   ansible.builtin.command: "{{ borg_init_command }}"
   tags:
-  - backup
-  - borg
+    - backup
+    - borg

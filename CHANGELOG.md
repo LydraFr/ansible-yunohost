@@ -12,6 +12,7 @@ and the commits message folow the [Conventional Commits](https://www.conventiona
 
 - In role `ynh_backup`:
   - You now have the possibility to use BorgBackup with an [extra Ansible role](https://github.com/borgbase/ansible-role-borgbackup) as well as [Restic](https://github.com/roles-ansible/ansible_role_restic). These are built-in into this role, which means that once configured correctly, Ansible will download the chosen roles and will trigger their tasks.
+  - In order to use [Restic Ansible role](https://github.com/roles-ansible/ansible_role_restic), you need to install the pip package jmespath. For developers of the collection, it can be installed from the provided Pipfile using the following command: `pipenv install`.
 
 ### Changed
 

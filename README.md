@@ -44,6 +44,7 @@ These tags are applicable to roles.
 |smtp|Tasks related to Yunohost smtp relay settings.|
 |backup|Tasks related to local Yunohost backups.|
 |borg|Tasks related to backups with BorgBackup.|
+|restic|Tasks related to backups with Restic.|
 
 ## License
 

@@ -44,6 +44,7 @@ Ces tags sont applicables suivant les rôles.
 |smtp|Tâches liées aux paramètres de relais smtp de Yunohost.|
 |backup|Tâches liées aux sauvegardes de Yunohost en local.|
 |borg|Tâches liées aux sauvegardes avec BorgBackup.|
+|restic|Tâches liées aux sauvegardes avec Restic.|
 
 ## License
 

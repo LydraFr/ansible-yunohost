@@ -20,21 +20,22 @@
 
 # Variables for local YunoHost backups
 ynh_backup:
-  scheduled: False
+  scheduled:                          False
 
 # Variables for YunoHost BorgBackup
-ynh_borg_backup_scheduled:   False
+ynh_borg_backup_scheduled:            False
+m3nu_ansible_role_borgbackup_version: "v0.9.3"
 borg_source_directories:
   - "/home/yunohost.backup"
-borg_repository:             "/data/backup/borg_repository"
-borg_init_command:           "borgmatic init -c /etc/borgmatic/{{ borgmatic_config_name }} -e repokey --syslog-verbosity 1"
-borg_archive_name_format:    "'{hostname}-yunohost-live-data-{now:%Y-%m-%d-%H%M%S}'"
-ynh_borg_backup_remote_repo: False
+borg_repository:                      "/data/backup/borg_repository"
+borg_init_command:                    "borgmatic init -c /etc/borgmatic/{{ borgmatic_config_name }} -e repokey --syslog-verbosity 1"
+borg_archive_name_format:             "'{hostname}-yunohost-live-data-{now:%Y-%m-%d-%H%M%S}'"
+ynh_borg_backup_remote_repo:          False
 
 # Variables for YunoHost Restic
 # https://github.com/roles-ansible/ansible_role_restic
-ynh_restic_backup_scheduled: False
-do1jlr_restic_version:       "v0.7.1"
-restic_version:              "0.12.1"
-restic_schedule_type:        "cronjob"
-restic_keep_time:            "0y1m0d0h"
+ynh_restic_backup_scheduled:          False
+do1jlr_restic_version:                "v0.7.1"
+restic_version:                       "0.12.1"
+restic_schedule_type:                 "cronjob"
+restic_keep_time:                     "0y1m0d0h"

@@ -18,7 +18,7 @@
 #                                                                             #
 #-----------------------------------------------------------------------------#
 - name: Download BorgBackup role on localhost
-  ansible.builtin.command: ansible-galaxy install m3nu.ansible_role_borgbackup,v0.9.0 -p "{{ _ansible_role_directory }}"
+  ansible.builtin.command: ansible-galaxy install m3nu.ansible_role_borgbackup,"{{ m3nu_ansible_role_borgbackup_version }}" -p "{{ _ansible_role_directory }}"
   delegate_to: localhost
   become: False
   tags:

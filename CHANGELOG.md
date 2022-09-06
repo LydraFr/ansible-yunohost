@@ -6,6 +6,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html),
 and the commits message folow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
 
+## [[1.1.1] - 2022-09-05](https://lab.frogg.it/lydra/yunohost/ansible-yunohost/-/releases/1.1.1)
+
+### Added
+
+- In role `ynh_backup`:
+  - Added Ansible variable `m3nu_ansible_role_borgbackup_version`. The default version of the role is v0.9.3, but it can easily be changed by overriding the default value. You can check the releases of the role [here](https://github.com/borgbase/ansible-role-borgbackup).
+  - Updated the readme files.
+
+- In general readme:
+  - Added restic tag.
+
+### Fixed
+
+- In role `ynh_backup`:
+  - Ansible role Borg has been updated to v0.9.3 due to a bug that I discovered. More info [here](https://github.com/borgbase/ansible-role-borgbackup/issues/101).
+
 ## [[1.1.0] - 2022-08-30](https://lab.frogg.it/lydra/yunohost/ansible-yunohost/-/releases/1.1.0)
 
 ### Added

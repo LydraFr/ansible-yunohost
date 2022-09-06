@@ -47,21 +47,23 @@ ynh_backup:
 - Les sauvegardes avec [BorgBackup](https://borgbackup.readthedocs.io/en/stable/) et [Borgmatic](https://github.com/witten/borgmatic) : Grâce au rôle Ansible `m3nu.ansible_role_borgbackup`, nous pouvons automatiser le processus d'installation et de configuration de BorgBackup sur un serveur YunoHost. Les sauvegardes Borg sont accessibles sur un dépôt Borg local ou distant. Plus d'info sur ce rôle [ici](https://github.com/borgbase/ansible-role-borgbackup)
 
 ```yml
-ynh_borg_backup_scheduled:  True
-borg_source_directories:    "{{ ynh_backup.directory }}"
-borg_repository:            "/data/backup/borg_repository"
-borg_encryption_passphrase: "PLEASECHANGEME"
-borgmatic_config_name:      "borgmatic_ynh_config"
-borgmatic_cron_name:        "borgmatic_ynh_cron"
+ynh_borg_backup_scheduled:            True
+m3nu_ansible_role_borgbackup_version: "v0.9.3"
+borg_source_directories:              "{{ ynh_backup.directory }}"
+borg_repository:                      "/data/backup/borg_repository"
+borg_encryption_passphrase:           "PLEASECHANGEME"
+borgmatic_config_name:                "borgmatic_ynh_config"
+borgmatic_cron_name:                  "borgmatic_ynh_cron"
 borg_retention_policy:
-  keep_daily: "4"
-ynh_borg_backup_remote_repo: True
-borg_ssh_keys_src:          "files/prd/ssh_keys/ynh_ed25519.vault"
-borg_ssh_keys_dest:         "/home/debian/.ssh/ynh_ed25519"
-ynh_ssh_borg_command:       "ssh_command: ssh -p 7410 -o StrictHostKeychecking=no -i {{ borg_ssh_keys_dest }}"
+  keep_daily:                         "4"
+ynh_borg_backup_remote_repo:          True
+borg_ssh_keys_src:                    "files/prd/ssh_keys/ynh_ed25519.vault"
+borg_ssh_keys_dest:                   "/home/debian/.ssh/ynh_ed25519"
+ynh_ssh_borg_command:                 "ssh_command: ssh -p 7410 -o StrictHostKeychecking=no -i {{ borg_ssh_keys_dest }}"
 ```
 
 - `ynh_borg_backup_scheduled` : Active / désactive la fonctionnalité de sauvegarde avec BorgBackup.
+- `m3nu_ansible_role_borgbackup_version` : Vous permet de spécifier la version du rôle Ansible Borg Backup que vous souhaitez utiliser. La version par défaut du rôle est v0.9.3 mais vous pouvez vérifier les versions du rôle [ici](https://github.com/borgbase/ansible-role-borgbackup).
 - `ynh_borg_backup_remote_repo` : Active / désactive la fonctionnalité de sauvegarde sur un dépôt distant BorgBackup (tâches liées à la mise en place des clés SSH). Si vous activez cette fonctionnalité, vous aurez besoin d'utiliser les variables `borg_ssh_keys_src` et `borg_ssh_keys_dest`.
 - `borg_source_directories` : Liste des dossiers source à sauvegarder. Par défaut, il s'agit du dossier qui contient les sauvegardes faites par YunoHost.
 - `borg_repository` : Chemin complet vers le dépôt Borg. Possibilité de donner une liste de dépôts pour sauvegarder les données dans plusieurs endroits.

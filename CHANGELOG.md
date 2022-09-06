@@ -8,6 +8,15 @@ and the commits message folow the [Conventional Commits](https://www.conventiona
 
 ## [[1.1.1] - 2022-09-05](https://lab.frogg.it/lydra/yunohost/ansible-yunohost/-/releases/1.1.1)
 
+### Added
+
+- In role `ynh_backup`:
+  - Added Ansible variable `m3nu_ansible_role_borgbackup_version`. The default version of the role is v0.9.3, but it can easily be changed by overriding the default value. You can check the releases of the role [here](https://github.com/borgbase/ansible-role-borgbackup).
+  - Updated the readme files.
+
+- In general readme:
+  - Added restic tag.
+
 ### Fixed
 
 - In role `ynh_backup`:

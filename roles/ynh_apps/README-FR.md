@@ -52,7 +52,7 @@ ynh_apps:
 
 - `domain` est obligatoire. Il faut choisir un des domaines de son instance Yunohost.
 - `path` est obligatoire. Il faut choisir une URL pour accéder à son application comme `domain.tld/my_app`. Utilisez juste `/` si l'application doit s'installer sur un sous-domaine.
-- `is_public` est  un argument qu'on retrouve souvent. Paramétré sur `yes`, l'application sera accessible à tout le monde, même sans authentification sur le portail SSO Yunohost. Paramétré sur `no`, l'application ne sera accessible qu'après authentification.
+- `is_public` est  un argument qu'on retrouve souvent. Paramétré sur `yes`, l'application sera accessible à tout le monde, même sans authentification sur le portail SSO Yunohost. Paramétré sur `no`, l'application ne sera accessible qu'après authentification depuis le SSO YunoHost. Enfin, si l'application a une API qu'on peut interroger, que l'argument `is_public` soit sur `yes` ou `no` ne change rien. Les appels API ne sont pas bloqués par le SSO YunoHost mais nécessitent toujours une authentification par token si l'application le requiert.
 
 Pour les autres arguments, il faut se référer au `manifest.json` disponible dans le dépôt de l'application Yunohost qu'on installe. Vous pouvez en apprendre plus sur cette partie [ici](https://yunohost.org/fr/packaging_apps_manifest).
 

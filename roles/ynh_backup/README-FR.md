@@ -90,6 +90,7 @@ N'hésitez pas à regarder les variables disponibles dans le [rôle](https://git
 ynh_restic_backup_scheduled: True
 restic_create_schedule:      True
 restic_keep_time:            "0y2m0d0h"
+restic_version:              "0.14.0"
 
 restic_repos:
   s3_ynh_restic_repo:
@@ -116,6 +117,7 @@ restic_backups:
 
 - `ynh_restic_backup_scheduled` : Active / désactive la fonctionnalité de sauvegarde avec Restic.
 - `restic_keep_time` : Permet de régler finement la période de temps durant laquelle les snapshots doivent être conservés. la valeur par défaut est de 1 mois `0y1m0d0h`.
+- `restic_version` : Vous permet de spécifier la version de Restic que vous souhaitez utiliser. La version par défaut du rôle est la 0.14.0. Vous pouvez vérifier les versions de Restic [ici](https://github.com/restic/restic/releases).
 - `restic_repos`: Restic conserve les données dans des dépôts. Vous devez spécifier au moins un dépôt pour utiliser ce rôle. Un dépôt doit comporter les variables suivantes :
   - `location` : **Obligatoire**, le chemin vers le dépôt. Ça peut être un chemin local (par exemple `/data/backup`) ou un chemin vers un bucket S3 (voir l'exemple ci-dessus).
   - `password`: **Obligatoire**, mot de passe à utiliser pour le dépôt Restic.

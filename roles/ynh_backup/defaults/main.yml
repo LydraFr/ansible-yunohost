@@ -36,6 +36,6 @@ ynh_borg_backup_remote_repo:          False
 # https://github.com/roles-ansible/ansible_role_restic
 ynh_restic_backup_scheduled:          False
 do1jlr_restic_version:                "v0.7.1"
-restic_version:                       "0.12.1"
+restic_version:                       "0.14.0"
 restic_schedule_type:                 "cronjob"
 restic_keep_time:                     "0y1m0d0h"

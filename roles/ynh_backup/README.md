@@ -64,7 +64,7 @@ ynh_ssh_borg_command:                 "ssh_command: ssh -p 7410 -o StrictHostKey
 
 - `ynh_borg_backup_scheduled`: Enable / disable the backup feature with BorgBackup.
 - `m3nu_ansible_role_borgbackup_version`: Allows you to specify which version of the Borg Backup Ansible role you want to use. The default version of the role is v0.9.3 but you can check the releases of the role [here](https://github.com/borgbase/ansible-role-borgbackup).
-- `ynh_borg_backup_remote_repo`: Enable / disable the backup functionality on a BorgBackup remote repository (tasks related to SSH keys setup). If you enable this feature, then you will need to use `borg_ssh_keys_src` and `borg_ssh_keys_dest` variables. 
+- `ynh_borg_backup_remote_repo`: Enable / disable the backup functionality on a BorgBackup remote repository (tasks related to SSH keys setup). If you enable this feature, then you will need to use `borg_ssh_keys_src` and `borg_ssh_keys_dest` variables.
 - `borg_source_directories`: List of source folders to back up. By default, this is the folder in which YunoHost local backups are located.
 - `borg_repository`: Full path to the Borg repository. Possibility to give a list of repositories to save data in several places.
 - `borg_encryption_passphrase` : **Mandatory**, password to use for the Borg repository encryption key.
@@ -90,6 +90,7 @@ Feel free to look at the variables available in the [role](https://github.com/bo
 ynh_restic_backup_scheduled: True
 restic_create_schedule:      True
 restic_keep_time:            "0y2m0d0h"
+restic_version:              "0.14.0"
 
 restic_repos:
   s3_ynh_restic_repo:
@@ -116,6 +117,7 @@ restic_backups:
 
 - `ynh_restic_backup_scheduled`: Enable / disable the backup feature with Restic.
 - `restic_keep_time`: Allows to fine tune the time period during which snapshots should be kept. The default value is 1 month `0y1m0d0h`.
+- `restic_version`: Allows you to specify the version of Restic you want to use. The default version of the role is 0.14.0. You can check Restic versions [here](https://github.com/restic/restic/releases).
 - `restic_repos`: Restic keeps data in repositories. You must specify at least one repository to use this role. A repository must have the following variables:
   - `location`: **Mandatory**, the path to the repository. This can be a local path (e.g. `/data/backup`) or a path to an S3 bucket (see example above).
   - `password`: **Mandatory**, password to use for the Restic repository.

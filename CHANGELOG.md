@@ -6,6 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html),
 and the commits message folow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
 
+## [[1.1.2] - 2022-12-07](https://lab.frogg.it/lydra/yunohost/ansible-yunohost/-/releases/1.1.2)
+
+### Added
+
+- In role `ynh_backup`:
+  - Added Ansible variable `restic_version`. The default version of Restic is 0.14.0, but it can easily be changed by overriding the default value. You can check the releases of Restic [here](https://github.com/restic/restic/releases).
+  - Updated the readme files.
+
+- In role `ynh_apps`:
+  - Updated readme for details about API calls.
+
 ## [[1.1.1] - 2022-09-05](https://lab.frogg.it/lydra/yunohost/ansible-yunohost/-/releases/1.1.1)
 
 ### Added

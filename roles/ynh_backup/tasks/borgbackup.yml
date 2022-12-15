@@ -31,9 +31,18 @@
     - borg
     - backup
 
-- name: run BorgBackup role
+- name: Run BorgBackup role
   ansible.builtin.import_role:
     name: m3nu.ansible_role_borgbackup
+  tags:
+    - backup
+    - borg
+
+- name: Install specific version of Borgmatic
+  ansible.builtin.pip:
+    name: "borgmatic"
+    version: "{{ borgmatic_version }}"
+    virtualenv: /opt/borgmatic
   tags:
     - backup
     - borg

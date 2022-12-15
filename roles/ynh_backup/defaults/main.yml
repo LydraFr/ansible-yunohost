@@ -25,6 +25,7 @@ ynh_backup:
 # Variables for YunoHost BorgBackup
 ynh_borg_backup_scheduled:            False
 m3nu_ansible_role_borgbackup_version: "v0.9.3"
+borgmatic_version:                    "1.6.5"
 borg_source_directories:
   - "/home/yunohost.backup"
 borg_repository:                      "/data/backup/borg_repository"

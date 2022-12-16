@@ -48,8 +48,7 @@ ynh_backup:
 
 ```yml
 ynh_borg_backup_scheduled:            True
-m3nu_ansible_role_borgbackup_version: "v0.9.3"
-borgmatic_version:                    "1.6.5"
+m3nu_ansible_role_borgbackup_version: "v0.9.4"
 borg_source_directories:              "{{ ynh_backup.directory }}"
 borg_repository:                      "/data/backup/borg_repository"
 borg_encryption_passphrase:           "PLEASECHANGEME"
@@ -64,8 +63,7 @@ ynh_ssh_borg_command:                 "ssh_command: ssh -p 7410 -o StrictHostKey
 ```
 
 - `ynh_borg_backup_scheduled`: Enable / disable the backup feature with BorgBackup.
-- `m3nu_ansible_role_borgbackup_version`: Allows you to specify which version of the Borg Backup Ansible role you want to use. The default version of the role is v0.9.3 but you can check the releases of the role [here](https://github.com/borgbase/ansible-role-borgbackup).
-- `borgmatic_version`: Allows you to specify which version of Borgmatic you want to use. The default version is 1.6.5 because previous release of the role are not compatible with more recent updates of Borgmatic (at the moment).
+- `m3nu_ansible_role_borgbackup_version`: Allows you to specify which version of the Borg Backup Ansible role you want to use. The default version of the role is v0.9.4 but you can check the releases of the role [here](https://github.com/borgbase/ansible-role-borgbackup).
 - `ynh_borg_backup_remote_repo`: Enable / disable the backup functionality on a BorgBackup remote repository (tasks related to SSH keys setup). If you enable this feature, then you will need to use `borg_ssh_keys_src` and `borg_ssh_keys_dest` variables.
 - `borg_source_directories`: List of source folders to back up. By default, this is the folder in which YunoHost local backups are located.
 - `borg_repository`: Full path to the Borg repository. Possibility to give a list of repositories to save data in several places.

@@ -48,8 +48,7 @@ ynh_backup:
 
 ```yml
 ynh_borg_backup_scheduled:            True
-m3nu_ansible_role_borgbackup_version: "v0.9.3"
-borgmatic_version:                    "1.6.5"
+m3nu_ansible_role_borgbackup_version: "v0.9.4"
 borg_source_directories:              "{{ ynh_backup.directory }}"
 borg_repository:                      "/data/backup/borg_repository"
 borg_encryption_passphrase:           "PLEASECHANGEME"
@@ -64,8 +63,7 @@ ynh_ssh_borg_command:                 "ssh_command: ssh -p 7410 -o StrictHostKey
 ```
 
 - `ynh_borg_backup_scheduled` : Active / désactive la fonctionnalité de sauvegarde avec BorgBackup.
-- `m3nu_ansible_role_borgbackup_version` : Vous permet de spécifier la version du rôle Ansible Borg Backup que vous souhaitez utiliser. La version par défaut du rôle est v0.9.3 mais vous pouvez vérifier les versions du rôle [ici](https://github.com/borgbase/ansible-role-borgbackup).
-- `borgmatic_version`: Vous permet de spécifier la version de Borgmatic que vous souhaitez utiliser. La version par défaut est la 1.6.5 car la dernière release du rôle n'est pas compatible avec les mises à jour plus récentes de Borgmatic (pour le moment).
+- `m3nu_ansible_role_borgbackup_version` : Vous permet de spécifier la version du rôle Ansible Borg Backup que vous souhaitez utiliser. La version par défaut du rôle est v0.9.4 mais vous pouvez vérifier les versions du rôle [ici](https://github.com/borgbase/ansible-role-borgbackup).
 - `ynh_borg_backup_remote_repo` : Active / désactive la fonctionnalité de sauvegarde sur un dépôt distant BorgBackup (tâches liées à la mise en place des clés SSH). Si vous activez cette fonctionnalité, vous aurez besoin d'utiliser les variables `borg_ssh_keys_src` et `borg_ssh_keys_dest`.
 - `borg_source_directories` : Liste des dossiers source à sauvegarder. Par défaut, il s'agit du dossier qui contient les sauvegardes faites par YunoHost.
 - `borg_repository` : Chemin complet vers le dépôt Borg. Possibilité de donner une liste de dépôts pour sauvegarder les données dans plusieurs endroits.

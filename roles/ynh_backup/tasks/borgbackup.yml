@@ -38,15 +38,6 @@
     - backup
     - borg
 
-- name: Install specific version of Borgmatic
-  ansible.builtin.pip:
-    name: "borgmatic"
-    version: "{{ borgmatic_version }}"
-    virtualenv: /opt/borgmatic
-  tags:
-    - backup
-    - borg
-
 - name: Create backup folder for BorgBackup repository
   ansible.builtin.file:
     path: "{{ borg_repository }}"
@@ -61,7 +52,7 @@
     - backup
     - borg
   block:
-    - name: deploy ssh public key for BorgBackup
+    - name: Deploy SSH public key for BorgBackup
       ansible.builtin.copy:
         src:   "{{ borg_ssh_keys_src }}.pub"
         dest:  "{{ borg_ssh_keys_dest }}.pub"
@@ -69,7 +60,7 @@
         group: "root"
         mode:  0600
 
-    - name: deploy ssh private key for BorgBackup
+    - name: Deploy SSH private key for BorgBackup
       ansible.builtin.copy:
         src:   "{{ borg_ssh_keys_src }}.vault"
         dest:  "{{ borg_ssh_keys_dest }}"
@@ -78,7 +69,7 @@
         mode:  0600
   when: ynh_borg_backup_remote_repo
 
-- name: change SSH command in "/etc/borgmatic/{{ borgmatic_config_name }}"
+- name: Change SSH command in "/etc/borgmatic/{{ borgmatic_config_name }}"
   ansible.builtin.lineinfile:
     path: "/etc/borgmatic/{{ borgmatic_config_name }}"
     regexp: "# ssh_command: ssh -i ~/.ssh/id_ed25519"
@@ -90,7 +81,7 @@
     - borg
 
 
-- name: change archive name in "/etc/borgmatic/{{ borgmatic_config_name }}"
+- name: Change archive name in "/etc/borgmatic/{{ borgmatic_config_name }}"
   ansible.builtin.lineinfile:
     path:   "/etc/borgmatic/{{ borgmatic_config_name }}"
     regexp: "archive_name_format:"

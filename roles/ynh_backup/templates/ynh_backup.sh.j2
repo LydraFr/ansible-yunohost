@@ -1,7 +1,7 @@
 #!/bin/bash
 today="$(date +%Y%m%d)"
 number_to_keep="{{ ynh_backup.number_days_to_keep | default("2") }}"
-old_backup_list="$(yunohost backup list --output-as plain | head -n -"$number_to_keep")"
+old_backup_list="$(yunohost backup list --output-as plain | head -n -${number_to_keep})"
 
 _good() {
     echo "SUCCESS: ${1}" && exit 0
@@ -12,16 +12,16 @@ _fail() {
 }
 
 _create_ynh_backup() {
-  echo "Backing up $today YunoHost data now."
-  yunohost backup create {% if ynh_backup.system | default(True) %}--system{% endif %}{% if ynh_backup.apps | default(True) %} --apps{% endif %}{% if ynh_backup.directory is defined %} --output-directory {{ ynh_backup.directory }}/backup_"$today" {% endif %} || _fail "can't create a backup"
-
+  echo "Backing up ${today} YunoHost data now."
+  yunohost backup create {% if ynh_backup.system | default(True) %}--system{% endif %}{% if ynh_backup.apps | default(True) %} --apps{% endif %}{% if ynh_backup.directory is defined %} --output-directory {{ ynh_backup.directory }}/backup_"${today}"{% endif %} || _fail "Can't create the local YunoHost backup"
 }
 
 _prune_old_backup() {
-  if [ -n "$old_backup_list" ]; then
-    for backup in $old_backup_list; do
-      echo "Backup $backup is 2 days old or more. Purging it now."
-      yunohost backup delete "$backup"
+  if [ -n "${old_backup_list}" ]; then
+    for backup in ${old_backup_list}; do
+      echo "Backup ${backup} is 2 days old or more. Purging it now."
+      yunohost backup delete "${backup}"
+      rm -rf {{ ynh_backup.directory }}/backup_"${backup}"
     done
     _good "Purging of old backups completed."
   else

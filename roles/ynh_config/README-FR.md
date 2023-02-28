@@ -50,6 +50,17 @@ Si des mises à jour sont disponibles, elles sont faites automatiquement. En cas
 
 Pour en savoir plus sur le fonctionnement des mises à jour dans Yunohost vous pouvez vous rendre [ici](https://yunohost.org/fr/update). Le changelog des versions de Yunohost est aussi disponible [ici](https://forum.yunohost.org/tag/ynh_release).
 
+### Modification du port SSH
+
+Parmi les paramètres proposés dans YunoHost, il est possible de modifier le port SSH. Vous devez juste créer la variable `ynh_ssh_port` et le rôle se chargera d'aller récupérer le port SSH et de le modifier si nécessaire. Il va aussi effectuer les changements appropriés pour fail2ban et le firewall interne de YunoHost.
+Si votre instance YunoHost est derrière un firewall applicatif ou propre à votre fournisseur cloud, il faudra également ouvrir le groupe de sécurité approprié.
+
+```yml
+ynh_ssh_port: "812"
+```
+
+⚠️ Attention, à partir du moment où le port SSH est modifié, la prochaine fois que vous voudrez vous connecter en SSH sur le serveur YunoHost, il faudra renseigner le port SSH utilisé (par exemple `ssh -p 812 username@hostname`). Vous pouvez également externaliser cette configuration vers un fichier de configuration SSH (plus d'infos [ici](https://linuxize.com/post/using-the-ssh-config-file/)). Vous pouvez aussi indiquer cette configuration dans votre fichier d'inventaire sinon Ansible ne pourra plus se connecter à votre serveur. (plus d'infos [ici](https://docs.ansible.com/ansible/latest/reference_appendices/faq.html#how-do-i-handle-different-machines-needing-different-user-accounts-or-ports-to-log-in-with)).
+
 ## Dépendances
 
 Aucune.

@@ -18,25 +18,9 @@
 #                                                                             #
 #-----------------------------------------------------------------------------#
 
-# Do not touch this variable
-# Just to have dict default value
-ynh_smtp_relay:
-  value: null
-
-# SMTP custom settings (Only override if you need a SMTP relay)
-# Example:
-# ynh_smtp_relay:
-    # host: smtp.domain.tld
-    # port: "25"
-    # user: user1
-    # password: Pa$$w0rd
-
-# Autoupdate Yunohost and its apps
-ynh_autoupdate:
-  scheduled: False
-  # special_time: "daily" #Choices are [annually,daily,hourly,monthly,reboot,weekly,yearly]
-  # apps: True
-  # system: True
-  # dest_script: "/usr/local/bin/"
-
-# ynh_ssh_port: "22"
+- name: Change SSH port
+  ansible.builtin.command:
+    "yunohost settings set security.ssh.port -v {{ ynh_ssh_port }}"
+  tags:
+    - yunohost
+    - ssh

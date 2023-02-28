@@ -26,9 +26,16 @@
     - yunohost
     - smtp
 
-- name: Configures Yunohost autoupdate
+- name: Configure Yunohost autoupdate
   ansible.builtin.include_tasks: autoupdate.yml
   when: ynh_autoupdate.scheduled
   tags:
     - yunohost
     - update
+
+- name: Configure Yunohost SSH port
+  ansible.builtin.include_tasks: sshd_configuration.yml
+  when: ynh_ssh_port
+  tags:
+    - yunohost
+    - ssh

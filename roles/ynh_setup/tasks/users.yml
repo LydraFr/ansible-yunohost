@@ -35,8 +35,7 @@
 - name: Create missing Yunohost users
   ansible.builtin.command:
     yunohost user create "{{ item.name }}" \
-    -f "{{ item.firstname }}" \
-    -l "{{ item.lastname }}" \
+    -F "{{ item.fullname }}" \
     -d "{{ item.mail_domain }}" \
     -p "{{ item.pass }}"
   loop: "{{ ynh_users }}"

@@ -47,6 +47,5 @@ ynh_ignore_dyndns_server: False
 ynh_users: null
   # - name: user1
   #   pass: p@ssw0rd
-  #   firstname: Jane
-  #   lastname: Doe
+  #   fullname: Jane DOE
   #   mail_domain: domain.tld

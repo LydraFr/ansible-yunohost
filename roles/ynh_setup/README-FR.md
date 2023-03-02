@@ -65,8 +65,7 @@ ynh_ignore_dyndns_server: False
 ynh_users:
    - name: user1
      pass: MYINSECUREPWD_PLZ_OVERRIDE_THIS
-     firstname: Jane
-     lastname: Doe
+     fullname: Jane DOE
      mail_domain: domain.tld 
 ```
 

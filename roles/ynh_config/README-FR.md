@@ -15,7 +15,6 @@ Les variables par défaut sont disponibles dans `default/main.yml` cependant il 
 ### Configuration d'un relais SMTP
 
 ```yml
-# paramètres personnalisés du relais SMTP
 ynh_smtp_relay:
     host: smtp.domain.tld
     port: 25
@@ -24,7 +23,7 @@ ynh_smtp_relay:
 ```
 
 Yunohost possède son propre serveur SMTP natif mais il est aussi possible de configurer Yunohost pour qu'il utilise un relais SMTP à la place.
-Pour faire cela, créez la variable `ynh_smtp_relay` et mettez vos propres valeurs. Vous pouvez en apprendre plus sur les relais SMTP [ici](https://yunohost.org/fr/administrate/specific_use_cases/email_relay).
+Pour faire cela, créez la variable `ynh_smtp_relay` pour y mettre vos propres valeurs. Vous pouvez en apprendre plus sur les relais SMTP [ici](https://yunohost.org/fr/administrate/specific_use_cases/email_relay).
 
 ### Configuration des mises à jour
 

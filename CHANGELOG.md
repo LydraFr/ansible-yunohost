@@ -4,7 +4,21 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html),
-and the commits message folow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
+and the commits message follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
+
+## [[1.1.4] - 2023-03-14](https://lab.frogg.it/lydra/yunohost/ansible-yunohost/-/releases/1.1.4)
+
+### Added
+
+- [feat(ynh_config): add the possibility to change SSH Port](https://lab.frogg.it/lydra/yunohost/ansible-yunohost/-/issues/63)
+- [refactor(ynh_config): use dict to store all settings](https://lab.frogg.it/lydra/yunohost/ansible-yunohost/-/issues/95)
+
+### Fixed
+
+- [fix(ynh_backup): fix purging system for YNH backups](https://lab.frogg.it/lydra/yunohost/ansible-yunohost/-/issues/82)
+- [fix: collection badges](https://lab.frogg.it/lydra/yunohost/ansible-yunohost/-/issues/50)
+- [fix(ynh_setup): change user first name / last name to full name](https://lab.frogg.it/lydra/yunohost/ansible-yunohost/-/issues/96)
+- [fix(ynh_config): SMTP enable](https://lab.frogg.it/lydra/yunohost/ansible-yunohost/-/issues/97)
 
 ## [[1.1.3] - 2022-12-16](https://lab.frogg.it/lydra/yunohost/ansible-yunohost/-/releases/1.1.3)
 

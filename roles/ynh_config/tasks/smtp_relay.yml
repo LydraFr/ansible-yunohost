@@ -22,7 +22,7 @@
   ansible.builtin.command:
     "yunohost settings get smtp.relay.{{ item.key }}"
   register: _ynh_smtp_current_values
-  changed_when: False
+  changed_when: false
   tags:
     - yunohost
     - smtp

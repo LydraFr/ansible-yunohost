@@ -40,6 +40,7 @@ These tags are applicable to roles.
 |apps|Tasks specific to Yunohost apps.|
 |update|Tasks related to Yunohost update settings.|
 |smtp|Tasks related to Yunohost smtp relay settings.|
+|settings|Tasks related to Yunohost settings.|
 |backup|Tasks related to local Yunohost backups.|
 |borg|Tasks related to backups with BorgBackup.|
 |restic|Tasks related to backups with Restic.|

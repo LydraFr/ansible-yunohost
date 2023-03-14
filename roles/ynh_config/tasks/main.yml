@@ -41,9 +41,10 @@
     - yunohost
     - update
 
-- name: Configure Yunohost SSH port
-  ansible.builtin.include_tasks: sshd_configuration.yml
-  when: ynh_ssh_port
+- name: Configure YunoHost settings
+  ansible.builtin.command:
+    "yunohost settings set {{ item.key }} -v {{ item.value }}"
+  loop: "{{ ynh_settings | dict2items }}"
   tags:
     - yunohost
-    - ssh
+    - settings

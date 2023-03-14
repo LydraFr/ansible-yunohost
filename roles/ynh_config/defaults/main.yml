@@ -39,4 +39,6 @@ ynh_autoupdate:
   # system: True
   # dest_script: "/usr/local/bin/"
 
-# ynh_ssh_port: "22"
+ynh_settings:
+  security.ssh.port: "22"
+  security.password.passwordless_sudo: "true"

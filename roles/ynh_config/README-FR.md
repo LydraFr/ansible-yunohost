@@ -49,16 +49,27 @@ Si des mises à jour sont disponibles, elles sont faites automatiquement. En cas
 
 Pour en savoir plus sur le fonctionnement des mises à jour dans Yunohost vous pouvez vous rendre [ici](https://yunohost.org/fr/update). Le changelog des versions de Yunohost est aussi disponible [ici](https://forum.yunohost.org/tag/ynh_release).
 
-### Modification du port SSH
-
-Parmi les paramètres proposés dans YunoHost, il est possible de modifier le port SSH. Vous devez juste créer la variable `ynh_ssh_port` et le rôle se chargera d'aller récupérer le port SSH et de le modifier si nécessaire. Il va aussi effectuer les changements appropriés pour fail2ban et le firewall interne de YunoHost.
-Si votre instance YunoHost est derrière un firewall applicatif ou propre à votre fournisseur cloud, il faudra également ouvrir le groupe de sécurité approprié.
+### Options de YunoHost
 
 ```yml
-ynh_ssh_port: "812"
+ynh_settings:
+  security.ssh.port: "22"
+  security.password.passwordless_sudo: "true"
 ```
 
-⚠️ Attention, à partir du moment où le port SSH est modifié, la prochaine fois que vous voudrez vous connecter en SSH sur le serveur YunoHost, il faudra renseigner le port SSH utilisé (par exemple `ssh -p 812 username@hostname`). Vous pouvez également externaliser cette configuration vers un fichier de configuration SSH (plus d'infos [ici](https://linuxize.com/post/using-the-ssh-config-file/)). Vous pouvez aussi indiquer cette configuration dans votre fichier d'inventaire sinon Ansible ne pourra plus se connecter à votre serveur. (plus d'infos [ici](https://docs.ansible.com/ansible/latest/reference_appendices/faq.html#how-do-i-handle-different-machines-needing-different-user-accounts-or-ports-to-log-in-with)).
+#### Modification du port SSH
+
+Parmi les paramètres proposés dans YunoHost, il est possible de modifier le port SSH à l'aide de la variable `security.ssh.port`. En modifiant la variable, YunoHost va effectuer les changements appropriés pour fail2ban et le firewall interne de YunoHost.
+Si votre instance YunoHost est derrière un firewall applicatif ou propre à votre fournisseur cloud, il faudra également ouvrir le groupe de sécurité approprié et ne pas oublier de renseigner le port SSH utilisé (par exemple `ssh -p 812 username@hostname`). Vous pouvez également externaliser cette configuration vers un fichier de configuration SSH (plus d'infos [ici](https://linuxize.com/post/using-the-ssh-config-file/)). Vous pouvez enfin indiquer cette configuration dans votre fichier d'inventaire sinon Ansible ne pourra plus se connecter à votre serveur. (plus d'infos [ici](https://docs.ansible.com/ansible/latest/reference_appendices/faq.html#how-do-i-handle-different-machines-needing-different-user-accounts-or-ports-to-log-in-with)).
+
+### Utilisation de sudo sans mot de passe
+
+À partir de Yunohost 11.1, un nouveau groupe d'administrateurs est créé sur l'instance. Il s'agit d'un groupe Unix qui est intégré à YunoHost et son LDAP. Tous les utilisateurs dans ce groupe auront accès à la console d'administration en ligne YunoHost mais pourront aussi se connecter en SSH et utiliser la commande sudo (pour prendre temporairement les droits root).
+Par défaut, l'utilisateur doit taper son mot de passe pour utiliser la commande sudo mais il est possible de désactiver cette vérification depuis l'interface web (`outils` > `Paramètres de YunoHost` > `Permettre aux administrateurs d'utiliser 'sudo' sans retaper leur mot de passe`) ou en modifiant la variable `security.password.passwordless_sudo` à `true` dans votre fichier de variables Ansible. Plus d'informations disponibles [ici](https://forum.yunohost.org/t/yunohost-11-1-release-sortie-de-yunohost-11-1/23378#sudo-sans-mot-de-passe-16).
+
+#### Paramètres supplémentaires
+
+Vous pouvez fournir des paramètres supplémentaires à la variable `ynh_settings`. Pour en savoir plus, utilisez la commande `yunohost settings list`.
 
 ## Dépendances
 
